@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0c10" />
+  <meta name="description" content="Cluster Studio — one environment for creative possibilities." />
+  <title>Cluster Studio — Turn Imagination Into Reality</title>
+
+  <!-- Optional typefaces; the page retains system-font fallbacks when offline. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #efeee8;
+      --paper-deep: #e6e5de;
+      --ink: #17191d;
+      --muted: #696b70;
+      --line: rgba(25, 28, 34, .16);
+      --blue: #5267e8;
+      --violet: #8d78e8;
+      --night: #10131b;
+      --night-soft: #171b26;
+      --night-text: #f1f0ec;
+      --night-muted: #a6a8b4;
+      --ease-out: cubic-bezier(.2, .75, .25, 1);
+      --page-gutter: clamp(22px, 6.25vw, 94px);
+      font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { min-width: 320px; background: #0b0c10; scroll-behavior: smooth; }
+    body { margin: 0; min-width: 320px; min-height: 100vh; overflow: hidden; background: #0b0c10; color: var(--ink); }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+
+    #stage { position: relative; width: 100%; min-height: 100svh; overflow: hidden; isolation: isolate; }
+    .scene {
+      position: absolute;
+      inset: 0;
+      min-height: 100svh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .scene::-webkit-scrollbar { display: none; }
+    .scene.is-active { opacity: 1; visibility: visible; pointer-events: auto; }
+
+    /* Scene 01 — warm, editorial, restrained. */
+    .scene--one {
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .scene--one::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .2;
+      background-image: linear-gradient(rgba(33, 38, 46, .055) 1px, transparent 1px), linear-gradient(90deg, rgba(33, 38, 46, .055) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(90deg, transparent 0%, #000 35%, #000 100%);
+    }
+    .scene--one::after {
+      content: "";
+      position: absolute;
+      width: min(62vw, 900px);
+      aspect-ratio: 1;
+      right: -18vw;
+      top: -36vh;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(121, 133, 215, .12), rgba(121, 133, 215, 0) 68%);
+      pointer-events: none;
+    }
+
+    /* Scene 02 — a darker, systems-oriented counterpart. */
+    .scene--two {
+      background: var(--night);
+      color: var(--night-text);
+    }
+    .scene--two::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .13;
+      background-image: linear-gradient(rgba(221, 225, 255, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(221, 225, 255, .1) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse at 68% 43%, #000 0%, transparent 76%);
+    }
+    .scene--two::after {
+      content: "";
+      position: absolute;
+      width: min(70vw, 980px);
+      aspect-ratio: 1;
+      right: -20vw;
+      top: -20vh;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91, 94, 181, .2), rgba(91, 94, 181, 0) 68%);
+      pointer-events: none;
+    }
+
+    .scene-shell {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 1600px);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: 104px var(--page-gutter) 46px;
+    }
+    .scene-shell--one {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(330px, .92fr);
+      align-items: center;
+      gap: clamp(28px, 4vw, 76px);
+    }
+    .scene-shell--two {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto auto;
+      gap: clamp(26px, 3.2vh, 42px);
+      padding-top: 112px;
+      padding-bottom: 34px;
+    }
+
+    .site-header {
+      position: fixed;
+      z-index: 20;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 88px;
+      padding: 0 var(--page-gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--ink);
+      opacity: 0;
+      visibility: hidden;
+      transition: color .45s ease, opacity .55s ease;
+    }
+    body[data-scene="two"] .site-header { color: var(--night-text); }
+    .site-header.is-visible { opacity: 1; visibility: visible; }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      flex: 0 0 auto;
+      min-width: 190px;
+      letter-spacing: -.045em;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .brand-mark { width: 30px; height: 30px; display: block; overflow: visible; }
+    .brand-wordmark { display: flex; flex-direction: column; gap: 1px; line-height: 1; }
+    .brand-wordmark span:last-child { font-size: 8px; font-weight: 600; letter-spacing: .2em; opacity: .55; margin-top: 3px; }
+    .main-nav { display: flex; align-items: center; gap: clamp(22px, 3vw, 48px); margin-left: auto; margin-right: clamp(28px, 4vw, 62px); }
+    .nav-link {
+      position: relative;
+      border: 0;
+      padding: 8px 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .015em;
+      opacity: .72;
+      transition: opacity .2s ease;
+    }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: 2px;
+      height: 1px;
+      background: currentColor;
+      transition: right .25s var(--ease-out);
+    }
+    .nav-link:hover { opacity: 1; }
+    .nav-link:hover::after { right: 0; }
+    .nav-login {
+      min-width: 104px;
+      border: 1px solid currentColor;
+      border-radius: 2px;
+      padding: 11px 18px;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: background .25s ease, color .25s ease, border-color .25s ease;
+    }
+    .nav-login:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    body[data-scene="two"] .nav-login:hover { background: var(--night-text); color: var(--night); border-color: var(--night-text); }
+
+    .hero-copy { position: relative; z-index: 2; max-width: 760px; padding-bottom: 14px; }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 clamp(24px, 3.2vh, 38px);
+      font-size: 10px;
+      line-height: 1.3;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #656874;
+    }
+    .eyebrow::before { content: ""; width: 26px; height: 1px; background: currentColor; opacity: .75; }
+    .scene--two .eyebrow { color: #aaa4e8; }
+    .hero-title {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(58px, 7.35vw, 116px);
+      line-height: .91;
+      font-weight: 500;
+      letter-spacing: -.085em;
+      text-wrap: balance;
+    }
+    .hero-title .line { display: block; }
+    .hero-title em {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      letter-spacing: -.055em;
+      color: #5968dc;
+    }
+    .scene--two .hero-title { max-width: 760px; font-size: clamp(55px, 6.45vw, 100px); }
+    .scene--two .hero-title em { color: #9d8bea; }
+    .hero-description {
+      max-width: 430px;
+      margin: clamp(24px, 3.5vh, 38px) 0 0;
+      color: var(--muted);
+      font-size: clamp(14px, 1.13vw, 16px);
+      line-height: 1.8;
+      font-weight: 400;
+    }
+    .scene--two .hero-description { color: var(--night-muted); max-width: 390px; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: clamp(28px, 4vh, 42px); }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      min-height: 50px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: transform .2s ease, background .25s ease, border-color .25s ease, color .25s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button--dark { background: #17191d; color: #f4f2eb; }
+    .button--dark:hover { background: #30333d; }
+    .button--outline { border-color: rgba(23, 25, 29, .3); background: transparent; color: var(--ink); }
+    .button--outline:hover { border-color: var(--ink); background: rgba(255,255,255,.35); }
+    .button-arrow { font-size: 16px; line-height: .7; font-weight: 400; transition: transform .2s ease; }
+    .button:hover .button-arrow { transform: translate(3px, -2px); }
+    .scene--two .button--dark { background: #eae8e2; color: #151720; }
+    .scene--two .button--dark:hover { background: #fff; }
+    .scene--two .button--outline { color: var(--night-text); border-color: rgba(241, 240, 236, .3); }
+    .scene--two .button--outline:hover { border-color: var(--night-text); background: rgba(255,255,255,.06); }
+
+    .hero-footnote {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: clamp(38px, 6vh, 68px);
+      color: #777a80;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .hero-footnote span:first-child { color: #3d424d; }
+    .hero-footnote .footnote-rule { display: inline-block; width: 34px; height: 1px; background: currentColor; opacity: .55; }
+    .scene--two .hero-footnote { color: #878b9a; }
+    .scene--two .hero-footnote span:first-child { color: #d2cdf6; }
+
+    /* The recurring silhouette: deliberately asymmetric, nearly crystalline. */
+    .hero-visual {
+      position: relative;
+      justify-self: end;
+      width: min(100%, 590px);
+      aspect-ratio: 1 / 1.03;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      transform: translateY(2px);
+    }
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      width: 80%;
+      height: 1px;
+      left: 10%;
+      top: 50%;
+      background: rgba(39, 45, 56, .14);
+    }
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 80%;
+      top: 10%;
+      left: 50%;
+      background: rgba(39, 45, 56, .14);
+    }
+    .sculpture-svg { position: relative; z-index: 1; width: 100%; height: 100%; overflow: visible; }
+    .visual-label {
+      position: absolute;
+      z-index: 2;
+      color: #71737a;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .visual-label--top { top: 6%; left: 8%; }
+    .visual-label--bottom { right: 7%; bottom: 7%; text-align: right; }
+    .visual-index {
+      position: absolute;
+      z-index: 2;
+      top: 49%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(30, 34, 43, .5);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+    }
+
+    /* Scene two's system map and capability rail. */
+    .two-hero {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, .92fr);
+      align-items: center;
+      gap: clamp(32px, 6vw, 90px);
+    }
+    .system-visual {
+      position: relative;
+      justify-self: end;
+      width: min(100%, 560px);
+      aspect-ratio: 1.13 / 1;
+      border: 1px solid rgba(205, 210, 242, .15);
+      background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.005));
+      overflow: hidden;
+    }
+    .system-visual::before, .system-visual::after { content: ""; position: absolute; background: rgba(205, 210, 242, .13); }
+    .system-visual::before { width: 1px; height: 100%; left: 50%; top: 0; }
+    .system-visual::after { height: 1px; width: 100%; top: 50%; left: 0; }
+    .system-visual svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .system-tag {
+      position: absolute;
+      z-index: 2;
+      padding: 7px 9px;
+      border: 1px solid rgba(205, 210, 242, .2);
+      background: rgba(16, 19, 27, .82);
+      color: #c4c4d5;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .system-tag--one { left: 7%; top: 17%; }
+    .system-tag--two { right: 7%; top: 31%; }
+    .system-tag--three { left: 10%; bottom: 14%; }
+    .system-caption {
+      position: absolute;
+      left: 24px;
+      bottom: 20px;
+      z-index: 2;
+      color: #777d92;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid rgba(225, 226, 245, .22);
+      border-bottom: 1px solid rgba(225, 226, 245, .12);
+    }
+    .capability-card { min-height: 112px; padding: 18px clamp(14px, 2.3vw, 32px) 15px 0; }
+    .capability-card + .capability-card { border-left: 1px solid rgba(225, 226, 245, .15); padding-left: clamp(14px, 2.3vw, 32px); }
+    .capability-number { display: block; margin-bottom: 13px; color: #a79ae9; font-size: 9px; font-weight: 700; letter-spacing: .16em; }
+    .capability-card h3 { margin: 0 0 7px; color: #efeee9; font-size: 14px; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; }
+    .capability-card p { max-width: 260px; margin: 0; color: #9296a6; font-size: 11px; line-height: 1.6; }
+    .about-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: #9296a6;
+      font-size: 10px;
+      line-height: 1.6;
+    }
+    .about-line strong { color: #e8e6e1; font-weight: 600; }
+    .about-mark { color: #aaa0e6; white-space: nowrap; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+
+    .scene-counter {
+      position: fixed;
+      z-index: 35;
+      bottom: 27px;
+      left: var(--page-gutter);
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: #777a80;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .45s ease, color .45s ease;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .18em;
+    }
+    .scene-counter.is-visible { opacity: 1; visibility: visible; }
+    body[data-scene="two"] .scene-counter { color: #8e92a1; }
+    .counter-current { color: var(--ink); }
+    body[data-scene="two"] .counter-current { color: #e5e2f2; }
+    .counter-divider { width: 26px; height: 1px; background: currentColor; opacity: .55; }
+    .motion-control {
+      position: fixed;
+      z-index: 45;
+      right: var(--page-gutter);
+      bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 0 8px 10px;
+      border: 0;
+      background: transparent;
+      color: #74777e;
+      opacity: 0;
+      visibility: hidden;
+      cursor: pointer;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      transition: opacity .45s ease, color .25s ease;
+    }
+    .motion-control.is-visible { opacity: 1; visibility: visible; }
+    body[data-scene="two"] .motion-control { color: #a2a5b1; }
+    .motion-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border: 1px solid currentColor; border-radius: 50%; font-size: 8px; line-height: 1; }
+    .bottom-progress { position: fixed; z-index: 38; bottom: 0; left: 0; width: 100%; height: 2px; background: rgba(20, 22, 28, .08); opacity: 0; visibility: hidden; }
+    .bottom-progress.is-visible { opacity: 1; visibility: visible; }
+    body[data-scene="two"] .bottom-progress { background: rgba(240,240,255,.1); }
+    .bottom-progress-bar { width: 100%; height: 100%; transform: scaleX(0); transform-origin: left center; background: linear-gradient(90deg, #5368df, #9c83e8); }
+
+    /* Reusable SVG aperture curtain. The cut-out is the same silhouette used in the artwork. */
+    #transition-layer {
+      position: fixed;
+      z-index: 30;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 1;
+      visibility: visible;
+      overflow: hidden;
+    }
+    #transition-layer .curtain { fill: #0b0c10; }
+    #transition-layer .aperture-outline { fill: none; stroke: rgba(236, 234, 226, .72); stroke-width: 2.2; vector-effect: non-scaling-stroke; }
+    #transition-layer .aperture-highlight { fill: none; stroke: rgba(111, 126, 230, .48); stroke-width: 1; vector-effect: non-scaling-stroke; transform: translate(3px, -3px); }
+
+    /* Login is intentionally honest: this front-end preview has no authentication backend. */
+    dialog {
+      width: min(440px, calc(100% - 32px));
+      padding: 0;
+      border: 1px solid rgba(25, 28, 34, .18);
+      border-radius: 3px;
+      background: #f1f0ea;
+      color: var(--ink);
+      box-shadow: 0 24px 90px rgba(0,0,0,.3);
+    }
+    dialog::backdrop { background: rgba(7, 9, 15, .66); backdrop-filter: blur(5px); }
+    .dialog-inner { padding: 32px; }
+    .dialog-kicker { margin: 0 0 18px; color: #666d8b; font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .dialog-title { margin: 0; font-size: 29px; font-weight: 500; letter-spacing: -.06em; }
+    .dialog-copy { margin: 13px 0 25px; color: #666970; font-size: 13px; line-height: 1.7; }
+    .dialog-close { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 17px; border: 0; border-radius: 2px; background: #17191d; color: #f4f2eb; cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    @media (max-width: 980px) {
+      .scene-shell--one { grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 18px; }
+      .hero-title { font-size: clamp(54px, 8vw, 88px); }
+      .hero-visual { width: 112%; margin-right: -8%; }
+      .scene-shell--two { padding-top: 104px; }
+      .two-hero { grid-template-columns: minmax(0, 1fr) minmax(290px, .85fr); gap: 28px; }
+      .scene--two .hero-title { font-size: clamp(52px, 6.8vw, 78px); }
+    }
+    @media (max-width: 720px) {
+      :root { --page-gutter: 22px; }
+      body { overflow: hidden; }
+      .site-header { height: 76px; }
+      .brand { min-width: 0; gap: 8px; font-size: 12px; }
+      .brand-mark { width: 27px; height: 27px; }
+      .brand-wordmark span:last-child { font-size: 7px; }
+      .main-nav { gap: 17px; margin-right: 16px; }
+      .main-nav .nav-link { font-size: 10px; }
+      .main-nav [data-nav="about"] { display: none; }
+      .nav-login { min-width: 0; padding: 9px 11px; font-size: 9px; }
+      .scene-shell { padding-left: var(--page-gutter); padding-right: var(--page-gutter); }
+      .scene-shell--one {
+        min-height: 100svh;
+        padding-top: 118px;
+        padding-bottom: 95px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        gap: 8px;
+      }
+      .hero-copy { padding: 0; }
+      .eyebrow { margin-bottom: 22px; font-size: 9px; }
+      .hero-title { font-size: clamp(53px, 12.2vw, 82px); line-height: .93; }
+      .hero-description { max-width: 390px; margin-top: 23px; font-size: 13px; line-height: 1.7; }
+      .hero-actions { gap: 9px; margin-top: 25px; }
+      .button { min-height: 46px; padding: 0 15px; font-size: 9px; gap: 11px; }
+      .hero-visual { width: min(78%, 330px); aspect-ratio: 1; align-self: center; margin: 8px 0 -22px; }
+      .visual-label--top { top: 4%; left: 1%; }
+      .visual-label--bottom { right: 0; bottom: 4%; }
+      .hero-footnote { display: none; }
+      .scene-shell--two { min-height: 100svh; padding-top: 96px; padding-bottom: 86px; display: flex; flex-direction: column; gap: 20px; }
+      .two-hero { display: flex; flex-direction: column; align-items: stretch; gap: 18px; }
+      .scene--two .hero-title { max-width: 620px; font-size: clamp(48px, 10.5vw, 72px); }
+      .scene--two .hero-description { margin-top: 17px; font-size: 13px; }
+      .system-visual { width: min(100%, 440px); aspect-ratio: 1.35 / .75; align-self: center; }
+      .system-caption { bottom: 12px; left: 14px; }
+      .system-tag { padding: 5px 6px; font-size: 7px; }
+      .capability-grid { grid-template-columns: 1fr; }
+      .capability-card { min-height: 0; padding: 11px 0; display: grid; grid-template-columns: 35px 1fr; column-gap: 9px; }
+      .capability-card + .capability-card { border-left: 0; border-top: 1px solid rgba(225, 226, 245, .13); padding-left: 0; }
+      .capability-number { grid-row: span 2; margin: 1px 0 0; }
+      .capability-card h3 { margin: 0 0 4px; font-size: 13px; }
+      .capability-card p { max-width: 420px; font-size: 10px; }
+      .about-line { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .scene-counter { bottom: 19px; font-size: 8px; }
+      .motion-control { bottom: 12px; font-size: 8px; }
+    }
+    @media (max-width: 390px) {
+      .main-nav { gap: 12px; }
+      .brand-wordmark { display: none; }
+      .hero-title { font-size: 51px; }
+      .button { padding: 0 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body data-scene="one">
+  <main id="stage" aria-label="Cluster Studio landing page">
+    <section class="scene scene--one is-active" id="scene-one" aria-labelledby="hero-one-title">
+      <div class="scene-shell scene-shell--one">
+        <div class="hero-copy" id="intro-copy">
+          <p class="eyebrow">An environment for creative systems</p>
+          <h1 class="hero-title" id="hero-one-title">
+            <span class="line">Turn Imagination</span>
+            <span class="line">Into <em>Reality.</em></span>
+          </h1>
+          <p class="hero-description">A connected creative environment where ideas, tools and intelligent systems come together to make more possible.</p>
+          <div class="hero-actions">
+            <button class="button button--dark" type="button" data-login>Log in <span class="button-arrow" aria-hidden="true">↗</span></button>
+            <button class="button button--outline" type="button" data-go="two">Explore capabilities <span class="button-arrow" aria-hidden="true">↗</span></button>
+          </div>
+          <div class="hero-footnote"><span>01 / 02</span><span class="footnote-rule"></span><span>Ideas, connected</span></div>
+        </div>
+
+        <figure class="hero-visual" aria-label="Cluster Studio's sculptural geometric form">
+          <span class="visual-label visual-label--top">Form study / 001</span>
+          <span class="visual-label visual-label--bottom">A connected creative field</span>
+          <span class="visual-index">C—01</span>
+          <svg class="sculpture-svg" viewBox="0 0 1000 1000" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="formFill" x1=".12" y1=".08" x2=".88" y2=".92">
+                <stop offset="0" stop-color="#dfe1e9" />
+                <stop offset=".48" stop-color="#c8cce0" />
+                <stop offset="1" stop-color="#aaaed1" />
+              </linearGradient>
+              <linearGradient id="formEdge" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#5b6ee0" />
+                <stop offset="1" stop-color="#9b83dc" />
+              </linearGradient>
+              <path id="clusterShape" d="M 500 78 C 584 75 635 160 696 232 C 756 302 866 330 895 425 C 923 519 841 590 748 657 C 664 718 628 850 520 899 C 416 946 335 855 273 760 C 218 675 97 633 90 520 C 83 408 190 326 278 260 C 359 199 390 86 500 78 Z" />
+            </defs>
+            <g transform="translate(500 500) rotate(-4) translate(-500 -500)">
+              <use href="#clusterShape" transform="translate(18 22)" fill="#373d57" opacity=".11" />
+              <use href="#clusterShape" fill="url(#formFill)" stroke="#757b99" stroke-width="2.2" />
+              <use href="#clusterShape" transform="translate(500 500) scale(.86) translate(-500 -500)" fill="none" stroke="url(#formEdge)" stroke-width="2.2" opacity=".8" />
+              <use href="#clusterShape" transform="translate(500 500) scale(.70) translate(-500 -500)" fill="none" stroke="#f8f7f1" stroke-width="2" opacity=".9" />
+              <use href="#clusterShape" transform="translate(500 500) scale(.54) translate(-500 -500)" fill="none" stroke="#7d84ab" stroke-width="1.5" opacity=".75" />
+            </g>
+            <path d="M 500 78 L 500 922 M 90 500 L 910 500" fill="none" stroke="#626a85" stroke-width="1" opacity=".17" />
+            <path d="M 500 465 L 500 535 M 465 500 L 535 500" fill="none" stroke="#444b67" stroke-width="2" opacity=".5" />
+          </svg>
+        </figure>
+      </div>
+    </section>
+
+    <section class="scene scene--two" id="scene-two" aria-labelledby="hero-two-title" aria-hidden="true">
+      <div class="scene-shell scene-shell--two">
+        <div class="two-hero">
+          <div class="hero-copy" id="capabilities">
+            <p class="eyebrow">Meet Cluster Studio</p>
+            <h2 class="hero-title" id="hero-two-title">
+              <span class="line">Where Creativity</span>
+              <span class="line">Meets <em>Intelligence.</em></span>
+            </h2>
+            <p class="hero-description">One environment. Multiple creative possibilities.</p>
+            <div class="hero-actions">
+              <button class="button button--dark" type="button" data-go="one">Back to the beginning <span class="button-arrow" aria-hidden="true">↗</span></button>
+            </div>
+          </div>
+
+          <div class="system-visual" aria-label="A conceptual map connecting ideas, tools and intelligence">
+            <span class="system-tag system-tag--one">Ideas</span>
+            <span class="system-tag system-tag--two">Intelligence</span>
+            <span class="system-tag system-tag--three">Tools</span>
+            <span class="system-caption">One environment / many possibilities</span>
+            <svg viewBox="0 0 600 500" role="img" aria-hidden="true">
+              <defs>
+                <linearGradient id="systemFill" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#343957" />
+                  <stop offset="1" stop-color="#202637" />
+                </linearGradient>
+                <path id="systemShape" d="M 300 74 C 351 73 385 124 422 164 C 460 205 520 215 526 269 C 532 320 485 348 431 382 C 382 412 359 463 302 464 C 249 465 222 420 185 378 C 148 336 85 317 82 263 C 79 210 135 177 184 143 C 231 110 244 75 300 74 Z" />
+              </defs>
+              <path d="M 116 118 L 242 212 L 445 164 M 116 118 L 207 356 L 445 164 M 207 356 L 432 382" fill="none" stroke="#7774c9" stroke-width="1.4" opacity=".62" />
+              <path d="M 116 118 L 242 212 L 445 164 M 116 118 L 207 356 L 445 164 M 207 356 L 432 382" fill="none" stroke="#c4c1ed" stroke-width="1" stroke-dasharray="3 8" opacity=".32" />
+              <use href="#systemShape" fill="url(#systemFill)" stroke="#8d86d5" stroke-width="1.5" />
+              <use href="#systemShape" transform="translate(300 270) scale(.82) translate(-300 -270)" fill="none" stroke="#a69ce9" stroke-width="1" opacity=".72" />
+              <use href="#systemShape" transform="translate(300 270) scale(.64) translate(-300 -270)" fill="none" stroke="#d9d4f2" stroke-width="1" opacity=".5" />
+              <rect x="106" y="108" width="19" height="19" fill="#aba0ec" stroke="#10131b" stroke-width="4" />
+              <rect x="435" y="154" width="19" height="19" fill="#8095f0" stroke="#10131b" stroke-width="4" />
+              <rect x="197" y="346" width="19" height="19" fill="#aba0ec" stroke="#10131b" stroke-width="4" />
+              <circle cx="300" cy="270" r="4" fill="#f0eee8" />
+              <path d="M 300 245 L 300 295 M 275 270 L 325 270" stroke="#d8d5ef" stroke-width="1" opacity=".4" />
+              <text x="300" y="316" fill="#eeecf1" font-size="10" font-family="DM Sans, Arial, sans-serif" font-weight="700" text-anchor="middle" letter-spacing="3">CLUSTER</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="capability-grid" aria-label="Cluster Studio's creative principles">
+          <article class="capability-card">
+            <span class="capability-number">01</span>
+            <h3>Imagine</h3>
+            <p>Give an early idea the space and structure to take shape.</p>
+          </article>
+          <article class="capability-card">
+            <span class="capability-number">02</span>
+            <h3>Build</h3>
+            <p>Bring creative tools and intelligent systems into one flow.</p>
+          </article>
+          <article class="capability-card">
+            <span class="capability-number">03</span>
+            <h3>Connect</h3>
+            <p>Move beyond isolated actions towards a joined-up process.</p>
+          </article>
+        </div>
+
+        <div class="about-line" id="about">
+          <span><strong>Cluster Studio</strong> is an evolving creative environment for turning ideas into finished work.</span>
+          <span class="about-mark">Many tools. One creative field.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <header class="site-header" id="site-header">
+    <a class="brand" href="#home" data-go="one" aria-label="Cluster Studio home">
+      <svg class="brand-mark" viewBox="0 0 1000 1000" aria-hidden="true">
+        <defs>
+          <linearGradient id="brandGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5269e8" />
+            <stop offset="1" stop-color="#957be4" />
+          </linearGradient>
+          <path id="brandShape" d="M 500 78 C 584 75 635 160 696 232 C 756 302 866 330 895 425 C 923 519 841 590 748 657 C 664 718 628 850 520 899 C 416 946 335 855 273 760 C 218 675 97 633 90 520 C 83 408 190 326 278 260 C 359 199 390 86 500 78 Z" />
+        </defs>
+        <use href="#brandShape" fill="url(#brandGradient)" />
+        <use href="#brandShape" transform="translate(500 500) scale(.62) translate(-500 -500)" fill="none" stroke="#f2f0ea" stroke-width="28" opacity=".85" />
+      </svg>
+      <span class="brand-wordmark"><span>CLUSTER</span><span>STUDIO</span></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-link" type="button" data-go="two" data-nav="capabilities">Capabilities</button>
+      <button class="nav-link" type="button" data-go="two" data-focus="about" data-nav="about">About</button>
+    </nav>
+    <button class="nav-login" type="button" data-login>Log in</button>
+  </header>
+
+  <div class="scene-counter" id="scene-counter" aria-hidden="true">
+    <span class="counter-current" id="counter-current">01</span><span class="counter-divider"></span><span>02</span>
+  </div>
+  <button class="motion-control" id="motion-control" type="button" aria-label="Pause automatic scene transitions" aria-pressed="false">
+    <span class="motion-icon" id="motion-icon" aria-hidden="true">Ⅱ</span><span id="motion-label">Pause motion</span>
+  </button>
+  <div class="bottom-progress" id="bottom-progress" aria-hidden="true"><div class="bottom-progress-bar" id="progress-bar"></div></div>
+
+  <svg id="transition-layer" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <mask id="aperture-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000" style="mask-type:luminance">
+        <rect x="0" y="0" width="1000" height="1000" fill="#fff" />
+        <g id="aperture-group">
+          <path id="aperture-path" d="M 500 78 C 584 75 635 160 696 232 C 756 302 866 330 895 425 C 923 519 841 590 748 657 C 664 718 628 850 520 899 C 416 946 335 855 273 760 C 218 675 97 633 90 520 C 83 408 190 326 278 260 C 359 199 390 86 500 78 Z" fill="#000" />
+        </g>
+      </mask>
+    </defs>
+    <rect class="curtain" x="0" y="0" width="1000" height="1000" mask="url(#aperture-mask)" />
+    <g id="outline-group">
+      <path class="aperture-outline" d="M 500 78 C 584 75 635 160 696 232 C 756 302 866 330 895 425 C 923 519 841 590 748 657 C 664 718 628 850 520 899 C 416 946 335 855 273 760 C 218 675 97 633 90 520 C 83 408 190 326 278 260 C 359 199 390 86 500 78 Z" />
+      <path class="aperture-highlight" d="M 500 78 C 584 75 635 160 696 232 C 756 302 866 330 895 425 C 923 519 841 590 748 657 C 664 718 628 850 520 899 C 416 946 335 855 273 760 C 218 675 97 633 90 520 C 83 408 190 326 278 260 C 359 199 390 86 500 78 Z" />
+    </g>
+  </svg>
+
+  <dialog id="login-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-inner">
+      <p class="dialog-kicker">Cluster Studio / Workspace</p>
+      <h2 class="dialog-title" id="dialog-title">A space is taking shape.</h2>
+      <p class="dialog-copy">Workspace sign-in is not connected in this front-end preview yet. The landing page is ready to explore; authentication will need a secure backend before real accounts can be enabled.</p>
+      <button class="dialog-close" type="button" id="dialog-close">Understood</button>
+    </div>
+  </dialog>
+
+  <!-- GSAP drives the SVG-mask timeline. A requestAnimationFrame fallback keeps the page usable offline. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const sceneOne = document.getElementById("scene-one");
+      const sceneTwo = document.getElementById("scene-two");
+      const header = document.getElementById("site-header");
+      const counter = document.getElementById("scene-counter");
+      const currentCounter = document.getElementById("counter-current");
+      const motionControl = document.getElementById("motion-control");
+      const motionIcon = document.getElementById("motion-icon");
+      const motionLabel = document.getElementById("motion-label");
+      const progressBar = document.getElementById("progress-bar");
+      const transitionLayer = document.getElementById("transition-layer");
+      const apertureGroup = document.getElementById("aperture-group");
+      const outlineGroup = document.getElementById("outline-group");
+      const loginDialog = document.getElementById("login-dialog");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const state = {
+        scene: "one",
+        busy: true,
+        paused: reducedMotion.matches,
+        timer: null,
+        progressTween: null,
+        cycleMs: 13000,
+        scale: 0.018,
+        gsapReady: typeof window.gsap !== "undefined"
+      };
+
+      const setApertureScale = (value) => {
+        state.scale = value;
+        const transform = `translate(500 500) scale(${value}) translate(-500 -500)`;
+        apertureGroup.setAttribute("transform", transform);
+        outlineGroup.setAttribute("transform", transform);
+      };
+
+      const setScene = (target) => {
+        const nextIsTwo = target === "two";
+        sceneOne.classList.toggle("is-active", !nextIsTwo);
+        sceneTwo.classList.toggle("is-active", nextIsTwo);
+        sceneOne.setAttribute("aria-hidden", String(nextIsTwo));
+        sceneTwo.setAttribute("aria-hidden", String(!nextIsTwo));
+        document.body.dataset.scene = target;
+        currentCounter.textContent = nextIsTwo ? "02" : "01";
+        state.scene = target;
+      };
+
+      const revealHeader = () => {
+        // The header sits beneath the aperture curtain, so it is revealed by the same shape.
+        header.classList.add("is-visible");
+      };
+
+      const revealControls = () => {
+        counter.classList.add("is-visible");
+        motionControl.classList.add("is-visible");
+        document.getElementById("bottom-progress").classList.add("is-visible");
+      };
+
+      const animateEntrance = (target, initial = false) => {
+        if (reducedMotion.matches) return;
+        const scene = target === "two" ? sceneTwo : sceneOne;
+        const items = target === "two"
+          ? scene.querySelectorAll(".eyebrow, .hero-title, .hero-description, .hero-actions, .system-visual, .capability-card, .about-line")
+          : scene.querySelectorAll(".eyebrow, .hero-title, .hero-description, .hero-actions, .hero-visual");
+
+        if (state.gsapReady) {
+          window.gsap.killTweensOf(items);
+          window.gsap.set(items, { opacity: 0, y: 18 });
+          window.gsap.to(items, {
+            opacity: 1,
+            y: 0,
+            duration: initial ? 0.85 : 0.72,
+            stagger: target === "two" ? 0.075 : 0.09,
+            ease: "power2.out",
+            delay: initial ? 0.12 : 0.05,
+            clearProps: "transform"
+          });
+        } else {
+          items.forEach((item, index) => {
+            item.style.opacity = "1";
+            item.style.transform = "none";
+            item.style.transition = "opacity .5s ease";
+            item.style.transitionDelay = `${index * 65}ms`;
+          });
+        }
+      };
+
+      const progressTo = (duration) => {
+        if (state.gsapReady) {
+          window.gsap.killTweensOf(progressBar);
+          window.gsap.set(progressBar, { scaleX: 0 });
+          window.gsap.to(progressBar, { scaleX: 1, duration: duration / 1000, ease: "none" });
+        } else {
+          progressBar.style.transition = "none";
+          progressBar.style.transform = "scaleX(0)";
+          requestAnimationFrame(() => {
+            progressBar.style.transition = `transform ${duration}ms linear`;
+            progressBar.style.transform = "scaleX(1)";
+          });
+        }
+      };
+
+      const clearCycle = () => {
+        if (state.timer) window.clearTimeout(state.timer);
+        state.timer = null;
+        if (state.gsapReady) window.gsap.killTweensOf(progressBar);
+        progressBar.style.transition = "none";
+        progressBar.style.transform = "scaleX(0)";
+      };
+
+      const scheduleCycle = () => {
+        clearCycle();
+        if (state.paused || state.busy) return;
+        progressTo(state.cycleMs);
+        state.timer = window.setTimeout(() => {
+          switchScene(state.scene === "one" ? "two" : "one", "automatic");
+        }, state.cycleMs);
+      };
+
+      const fallbackTween = (from, to, duration, ease, onUpdate, onComplete) => {
+        const start = performance.now();
+        const easing = ease === "in"
+          ? (t) => t * t * t
+          : (t) => 1 - Math.pow(1 - t, 3);
+        const frame = (now) => {
+          const p = Math.min(1, (now - start) / duration);
+          onUpdate(from + (to - from) * easing(p));
+          if (p < 1) requestAnimationFrame(frame);
+          else if (onComplete) onComplete();
+        };
+        requestAnimationFrame(frame);
+      };
+
+      const runWipe = (target, isInitial = false) => {
+        state.busy = true;
+        clearCycle();
+        transitionLayer.style.visibility = "visible";
+        transitionLayer.style.opacity = "1";
+        const maxScale = 2.55;
+        const revealDuration = reducedMotion.matches ? 0.01 : (isInitial ? 1500 : 1150);
+        const concealDuration = reducedMotion.matches ? 0.01 : 920;
+
+        if (isInitial) {
+          revealHeader();
+          animateEntrance("one", true);
+          setApertureScale(0.018);
+          if (state.gsapReady && !reducedMotion.matches) {
+            const intro = window.gsap.timeline({ defaults: { ease: "power3.out" } });
+            const introScale = { value: 0.018 };
+            intro.to(introScale, {
+              value: maxScale,
+              duration: revealDuration / 1000,
+              ease: "power3.out",
+              onUpdate: () => setApertureScale(introScale.value),
+              onComplete: () => {
+                transitionLayer.style.opacity = "0";
+                transitionLayer.style.visibility = "hidden";
+                state.busy = false;
+                revealControls();
+                scheduleCycle();
+              }
+            });
+            return;
+          }
+          fallbackTween(0.018, maxScale, revealDuration, "out", setApertureScale, () => {
+            transitionLayer.style.opacity = "0";
+            transitionLayer.style.visibility = "hidden";
+            state.busy = false;
+            revealControls();
+            scheduleCycle();
+          });
+          return;
+        }
+
+        const completeReveal = () => {
+          transitionLayer.style.opacity = "0";
+          transitionLayer.style.visibility = "hidden";
+          state.busy = false;
+          scheduleCycle();
+        };
+
+        if (reducedMotion.matches) {
+          setApertureScale(0.018);
+          setScene(target);
+          setApertureScale(maxScale);
+          completeReveal();
+          return;
+        }
+
+        if (state.gsapReady) {
+          const animatedScale = { value: maxScale };
+          const timeline = window.gsap.timeline({ onComplete: completeReveal });
+          timeline.to(animatedScale, {
+            value: 0.018,
+            duration: concealDuration / 1000,
+            ease: "power3.in",
+            onUpdate: () => setApertureScale(animatedScale.value)
+          });
+          timeline.add(() => {
+            setScene(target);
+            const activeScene = target === "two" ? sceneTwo : sceneOne;
+            activeScene.scrollTop = 0;
+            animateEntrance(target, false);
+          });
+          timeline.to(animatedScale, {
+            value: maxScale,
+            duration: revealDuration / 1000,
+            ease: "power4.out",
+            onUpdate: () => setApertureScale(animatedScale.value)
+          });
+        } else {
+          fallbackTween(maxScale, 0.018, concealDuration, "in", setApertureScale, () => {
+            setScene(target);
+            const activeScene = target === "two" ? sceneTwo : sceneOne;
+            activeScene.scrollTop = 0;
+            animateEntrance(target, false);
+            fallbackTween(0.018, maxScale, revealDuration, "out", setApertureScale, completeReveal);
+          });
+        }
+      };
+
+      const switchScene = (target, source = "manual") => {
+        if (target !== "one" && target !== "two") return;
+        if (state.busy || state.scene === target) {
+          if (!state.busy && source === "manual") scheduleCycle();
+          return;
+        }
+        runWipe(target, false);
+      };
+
+      // Buttons and navigation share the exact same transition route.
+      document.querySelectorAll("[data-go]").forEach((control) => {
+        control.addEventListener("click", (event) => {
+          event.preventDefault();
+          const target = control.getAttribute("data-go");
+          const focusTarget = control.getAttribute("data-focus");
+          if (target === state.scene && focusTarget === "about") {
+            const about = document.getElementById("about");
+            about.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "end" });
+            scheduleCycle();
+            return;
+          }
+          switchScene(target, "manual");
+          if (focusTarget === "about") {
+            window.setTimeout(() => {
+              document.getElementById("about").scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "end" });
+            }, reducedMotion.matches ? 0 : 2100);
+          }
+        });
+      });
+
+      const openLogin = () => {
+        if (typeof loginDialog.showModal === "function") loginDialog.showModal();
+        else loginDialog.setAttribute("open", "");
+      };
+      document.querySelectorAll("[data-login]").forEach((button) => button.addEventListener("click", openLogin));
+      document.getElementById("dialog-close").addEventListener("click", () => {
+        if (typeof loginDialog.close === "function") loginDialog.close();
+        else loginDialog.removeAttribute("open");
+      });
+      loginDialog.addEventListener("click", (event) => {
+        if (event.target === loginDialog) loginDialog.close();
+      });
+
+      motionControl.addEventListener("click", () => {
+        state.paused = !state.paused;
+        motionControl.setAttribute("aria-pressed", String(state.paused));
+        motionControl.setAttribute("aria-label", state.paused ? "Play automatic scene transitions" : "Pause automatic scene transitions");
+        motionIcon.textContent = state.paused ? "▶" : "Ⅱ";
+        motionLabel.textContent = state.paused ? "Play motion" : "Pause motion";
+        if (state.paused) clearCycle(); else scheduleCycle();
+      });
+
+      // Re-check GSAP after its deferred CDN script has had a chance to load.
+      const startExperience = () => {
+        state.gsapReady = typeof window.gsap !== "undefined";
+        state.paused = reducedMotion.matches;
+        motionControl.setAttribute("aria-pressed", String(state.paused));
+        motionControl.setAttribute("aria-label", state.paused ? "Play automatic scene transitions" : "Pause automatic scene transitions");
+        motionIcon.textContent = state.paused ? "▶" : "Ⅱ";
+        motionLabel.textContent = state.paused ? "Play motion" : "Pause motion";
+        runWipe("one", true);
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", startExperience, { once: true });
+      } else {
+        startExperience();
+      }
+
+      reducedMotion.addEventListener?.("change", (event) => {
+        if (event.matches) {
+          state.paused = true;
+          clearCycle();
+          motionControl.setAttribute("aria-pressed", "true");
+          motionIcon.textContent = "▶";
+          motionLabel.textContent = "Play motion";
+        }
+      });
+
+      // Avoid a stale autoplay timer after a tab is backgrounded.
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) clearCycle();
+        else if (!state.busy && !state.paused) scheduleCycle();
+      });
+    })();
+  </script>
+</body>
+</html>
