@@ -115,7 +115,7 @@
           </a>
 
           <!-- Mobile Hamburger Toggle Button -->
-          <button id="mobile-menu-toggle" type="button" class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-800 transition-all border border-slate-200/80 focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <button id="mobile-menu-toggle" type="button" class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-800 transition-all border border-slate-200/80 focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="mobile-nav-drawer">
             <i id="hamburger-icon" class="fa-solid fa-bars text-sm"></i>
           </button>
         </div>
@@ -1164,6 +1164,11 @@
           </p>
         </div>
 
+        <!-- Mobile Horizontal Swipe Indicator -->
+        <div class="flex sm:hidden items-center justify-center gap-2 mb-3 text-xs text-slate-500 font-mono select-none" aria-hidden="true">
+          <i class="fa-solid fa-arrows-left-right text-[11px] text-cyan-600 animate-pulse"></i>
+          <span>Swipe horizontally to view full table</span>
+        </div>
         <div class="overflow-x-auto rounded-3xl bg-white border border-slate-200 shadow-lg">
           <table class="w-full comparison-table text-xs sm:text-sm text-left border-collapse min-w-[640px]" aria-label="Planned Membership Benefits Comparison">
             <thead>

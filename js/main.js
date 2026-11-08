@@ -1642,6 +1642,15 @@ window.handleWaitlistSubmit = async function(e) {
         }
       }, { passive: true });
 
+      // Dismiss mobile drawer when clicking or tapping outside
+      document.addEventListener('click', (e) => {
+        if (isMobileMenuOpen && mobileNavDrawer && mobileMenuToggle) {
+          if (!mobileNavDrawer.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            toggleMobileMenu();
+          }
+        }
+      });
+
       const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
