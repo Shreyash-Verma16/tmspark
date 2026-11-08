@@ -695,6 +695,14 @@
           const playAttempt = sparkShowcaseVideo.play();
           if (playAttempt && typeof playAttempt.catch === 'function') playAttempt.catch(() => {});
         };
+        const showcaseBufferIndicator = sparkVideoFrame ? sparkVideoFrame.querySelector('.video-buffer-indicator') : null;
+        if (showcaseBufferIndicator) {
+          sparkShowcaseVideo.addEventListener('waiting', () => showcaseBufferIndicator.classList.add('is-buffering'));
+          sparkShowcaseVideo.addEventListener('playing', () => showcaseBufferIndicator.classList.remove('is-buffering'));
+          sparkShowcaseVideo.addEventListener('pause', () => showcaseBufferIndicator.classList.remove('is-buffering'));
+          sparkShowcaseVideo.addEventListener('canplay', () => showcaseBufferIndicator.classList.remove('is-buffering'));
+        }
+
         sparkShowcaseVideo.addEventListener('loadeddata', () => {
           if (sparkVideoPlaceholder) sparkVideoPlaceholder.classList.add('is-hidden');
           if (sparkVideoPlayToggle) sparkVideoPlayToggle.hidden = false;
@@ -729,34 +737,57 @@
       }
 
       // =========================================================
-      // 3B. SMART PERFORMANCE OBSERVER FOR CAPABILITY VIDEOS
+      // 3B. SMART PERFORMANCE OBSERVER & BUFFERING STATES FOR CAPABILITY VIDEOS
       // =========================================================
       const capabilityVideos = document.querySelectorAll('.capability-row video');
-      if (capabilityVideos.length > 0 && 'IntersectionObserver' in window) {
-        const capVideoObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            const vid = entry.target;
-            if (entry.isIntersecting) {
-              if (vid.paused) {
-                const playPromise = vid.play();
-                if (playPromise !== undefined) {
-                  playPromise.catch(() => {
-                    // Autoplay restriction or user interaction required; safe no-op
-                  });
+      if (capabilityVideos.length > 0) {
+        capabilityVideos.forEach(vid => {
+          const container = vid.closest('.capability-photo-box') || vid.parentElement;
+          const indicator = container ? container.querySelector('.video-buffer-indicator') : null;
+          if (indicator) {
+            vid.addEventListener('waiting', () => indicator.classList.add('is-buffering'));
+            vid.addEventListener('playing', () => indicator.classList.remove('is-buffering'));
+            vid.addEventListener('pause', () => indicator.classList.remove('is-buffering'));
+            vid.addEventListener('canplay', () => indicator.classList.remove('is-buffering'));
+            vid.addEventListener('error', () => indicator.classList.remove('is-buffering'));
+          }
+        });
+
+        if ('IntersectionObserver' in window) {
+          const capVideoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              const vid = entry.target;
+              const container = vid.closest('.capability-photo-box') || vid.parentElement;
+              const indicator = container ? container.querySelector('.video-buffer-indicator') : null;
+              if (entry.isIntersecting) {
+                if (vid.paused) {
+                  if (vid.readyState < 3 && indicator) {
+                    indicator.classList.add('is-buffering');
+                  }
+                  const playPromise = vid.play();
+                  if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                      // Autoplay restriction or user interaction required; safe no-op
+                      if (indicator) indicator.classList.remove('is-buffering');
+                    });
+                  }
+                }
+              } else {
+                if (!vid.paused) {
+                  vid.pause();
+                }
+                if (indicator) {
+                  indicator.classList.remove('is-buffering');
                 }
               }
-            } else {
-              if (!vid.paused) {
-                vid.pause();
-              }
-            }
-          });
-        }, { threshold: 0.12 });
+            });
+          }, { threshold: 0.12 });
 
-        capabilityVideos.forEach(v => {
-          v.pause();
-          capVideoObserver.observe(v);
-        });
+          capabilityVideos.forEach(v => {
+            v.pause();
+            capVideoObserver.observe(v);
+          });
+        }
       }
 
 
