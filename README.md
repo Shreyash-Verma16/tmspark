@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://tmspark.vercel.app"><img src="https://img.shields.io/badge/Website-tmspark.vercel.app-0284c7?style=for-the-badge&logo=vercel" alt="Website" /></a>
-  <img src="https://img.shields.io/badge/Status-Prototype%20%26%20Experimentation-8b5cf6?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/Status-Prototype%20%26%20Design%20Preview-8b5cf6?style=for-the-badge" alt="Status" />
   <img src="https://img.shields.io/badge/Ecosystem-Labs%20Spark-0ea5e9?style=for-the-badge" alt="Ecosystem" />
 </p>
 
@@ -18,72 +18,89 @@
 
 ## 📖 Overview
 
-**TypeMind Spark** is an AI-powered keyboard and intelligent communication ecosystem engineered to make everyday digital interactions smarter, more contextual, and deeply personalized.
+**TypeMind Spark** is an AI-powered keyboard concept and intelligent communication ecosystem designed to make everyday digital writing adaptive, context-aware, and deeply personalized.
 
-Instead of treating a keyboard merely as a tool for pressing keys, TypeMind Spark transforms it into an **on-device personal intelligence layer** that understands context, anticipates thoughts, refines messages, and triggers cross-application actions without interrupting your workflow.
+Rather than operating as a conventional static keyboard, TypeMind Spark is conceived as an **on-device personal intelligence layer** that interprets active application context, anticipates drafting thoughts, refines messages into distinct voices, and enables frictionless cross-app productivity without disrupting the user's flow.
 
-🌐 **Live Experience:** [tmspark.vercel.app](https://tmspark.vercel.app)
+🌐 **Interactive Product Showcase:** [tmspark.vercel.app](https://tmspark.vercel.app)
 
 ---
 
 ## 🚀 The Vision
 
-Traditional keyboards help users type words. **TypeMind Spark helps users communicate ideas.**
+Standard keyboards facilitate typing characters. **TypeMind Spark is designed to facilitate ideas.**
 
-* **Ambient Context:** Detects whether you're in Gmail, WhatsApp, or LinkedIn to tune tone and vocabulary automatically.
-* **On-Device Privacy:** Preserves your personal style, sign-offs, and preferences securely on-device.
-* **Uninterrupted Flow:** Access intelligent writing assistance, completions, and AI studio tools right from the keyboard without window switching.
+* **Ambient Context:** Seamlessly adapts suggestions, tone, and formatting depending on whether you are writing an email, a messaging chat, or a professional post.
+* **On-Device Intelligence:** Anchors personal style, custom vocabulary, and memory on-device to uphold user privacy.
+* **Integrated Workflow:** Brings AI drafting, multi-tone rewriting, and quick productivity triggers directly into the keyboard interface.
 
 ---
 
-## ⚡ The Core Capabilities
+## ⚡ Core Capabilities
 
-TypeMind Spark is structured around eight core capabilities, each demonstrated with dedicated video showcases and interactive modules:
+The product vision centers on eight defined capabilities, presented through dedicated video showcases and interactive concept walkthroughs:
+
+| # | Capability | Focus & Role |
+|---|---|---|
+| **1** | **Live Context Detection (LCD)** | Identifies the active app environment to adjust suggestions and tone dynamically. |
+| **2** | **Thought Completion (TC)** | Anticipates sentence direction and offers multi-word conceptual completions. |
+| **3** | **Help Me Rewrite (HMR)** | Instantly transforms drafts into professional, concise, expressive, or casual tones. |
+| **4** | **Personal AI Memory (PAM)** | Retains preferred phrases, recurring terminology, and personal writing habits locally. |
+| **5** | **Personal AI Studio (PAS)** | Facilitates structured drafting and multi-paragraph composition from within the keyboard. |
+| **6** | **Cross-App AI Actions (CAA)** | Creates reminders, calendar entries, and quick notes directly from typed text. |
+| **7** | **Clone AI Agent (CAA)** | Aligns draft outputs and message reviews with the user's authentic personal voice. |
+| **8** | **AI Generator Protector (AGP)** | Distinguishes synthetic drafts from original thought and guards against robotic phrasing. |
+
+---
+
+## 🏛️ Ecosystem Architecture
+
+TypeMind Spark is engineered as part of the broader **Labs Spark** ecosystem:
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        TYPEMIND SPARK SUITE                            │
-├───────────────────────────┬────────────────────────────────────────────┤
-│ 1. Live Context Detection │ Adapts suggestions based on the active app │
-│ 2. Thought Completion     │ Naturally predicts & completes ideas       │
-│ 3. Help Me Rewrite        │ Polishes drafts into distinct tones        │
-│ 4. Personal AI Memory     │ Learns vocabulary & habits on-device       │
-│ 5. Personal AI Studio     │ Drafts complex compositions at keyboard    │
-│ 6. Cross-App AI Actions   │ Triggers calendar, notes & tasks           │
-│ 7. Clone AI Agent         │ Adapts a review agent to your voice        │
-│ 8. AI Generator Protector │ Safeguards authenticity & original content │
-└───────────────────────────┴────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                           LABS SPARK                            │
+│           Parent Research, Concept & Systems Platform           │
+└───────────────────────────────┬─────────────────────────────────┘
+                                │
+        ┌───────────────────────┴───────────────────────┐
+        ▼                                               ▼
+┌───────────────────────────────┐       ┌───────────────────────────────┐
+│        CLUSTER STUDIO         │       │        TYPEMIND SPARK         │
+│  Creative suite & agent space │       │  On-device intelligence layer │
+└───────────────────────────────┘       └───────────────┬───────────────┘
+                                                        │
+                                                        ▼
+                                        ┌───────────────────────────────┐
+                                        │           SPARK AI            │
+                                        │  Dual-Engine Inference Model  │
+                                        ├───────────────┬───────────────┤
+                                        │     AURA      │     PRISM     │
+                                        │ Fast everyday │ Deep intent   │
+                                        │  completions  │   synthesis   │
+                                        └───────────────┴───────────────┘
 ```
 
----
-
-## 🏛️ Project Architecture & Ecosystem
-
-TypeMind Spark operates within the broader **Labs Spark** parent brand:
-
-| Layer | Entity | Purpose |
-| :--- | :--- | :--- |
-| **Parent Brand** | **Labs Spark** | Research, experimentation, and AI architectures |
-| **Creative Platform** | **Cluster Studio** | Unified environment for creative tooling & agent workflows |
-| **Interaction Layer** | **TypeMind Spark** | On-device AI keyboard & intelligent communication |
-| **Intelligence Engine** | **Spark AI (AURA & PRISM)** | Dual-engine reasoning and fast inference pipelines |
-
-### Spark Intelligence Architecture:
-* **🟣 AURA (Adaptive User Response Architecture):** Fast, everyday writing engine for instant autocomplete, grammar correction, and rapid sentence polish.
-* **🔵 PRISM (Personal Reasoning Intent Synthesis Model):** Advanced contextual engine for complex synthesis, multi-step drafts, and strategic composition.
+* **Labs Spark:** The overarching research initiative guiding next-generation human-computer interaction models.
+* **Cluster Studio:** A planned unified environment for creative tooling and specialized agent workflows.
+* **TypeMind Spark:** The user-facing interaction layer bringing intelligent assistance into daily input.
+* **Spark AI Dual Engines:**
+  * **🟣 AURA (Adaptive User Response Architecture):** Lightweight, ultra-responsive engine dedicated to real-time autocomplete, punctuation, and instantaneous grammar polish.
+  * **🔵 PRISM (Personal Reasoning Intent Synthesis Model):** Higher-capacity contextual engine handling multi-paragraph synthesis, tone mapping, and complex drafting.
 
 ---
 
-## 🛠️ Tech Stack & Implementation
+## 🛠️ Showcase Technology Stack
 
-The TypeMind Spark web portal is built with modern, high-performance web standards:
+The interactive product web experience is built with modern web technologies:
 
-* **Markup & Structure:** Semantic HTML5 with accessibility standards
-* **Styling:** Modular CSS3 (`css/style.css`), Tailwind CSS utility framework
-* **Animations & Physics:** GSAP 3.12 (GreenSock), ScrollTrigger, 3D Canvas particle system
-* **Smooth Scrolling:** Lenis 1.1 smooth momentum physics
-* **Media & Assets:** Hardware-accelerated 1080p MP4 demonstration cards
-* **Integration:** Web3Forms asynchronous waitlist registration pipeline
+* **Markup & Structure:** Semantic HTML5 with accessibility attributes and ARIA roles
+* **Styling & Layout:** Tailwind CSS utility framework and custom design tokens (`css/style.css`)
+* **Motion & Physics:** GSAP 3.12 (GreenSock) and ScrollTrigger with GPU-accelerated transforms
+* **Smooth Scrolling:** Lenis 1.1 momentum scroll synchronization
+* **Background Graphics:** 3D interactive HTML5 Canvas fluid ribbon simulation
+* **Media Assets:** Hardware-accelerated local 1080p MP4 demonstrations with responsive fallback states
+* **Waitlist Pipeline:** Asynchronous AJAX form handling integrated with Web3Forms
 
 ---
 
@@ -92,13 +109,13 @@ The TypeMind Spark web portal is built with modern, high-performance web standar
 ```
 tmspark/
 ├── css/
-│   └── style.css            # Custom layout, animations, atmospheric glow & glassmorphism
+│   └── style.css            # Design system, glassmorphism, responsive queries & animations
 ├── js/
-│   └── main.js              # Controllers, GSAP timeline animations, Lenis & modals
+│   └── main.js              # GSAP timelines, Lenis scroll loop, drawer & UI controllers
 ├── Logo/
-│   └── Split-Tone-Metallic-TM-Emblem.png  # High-resolution vector brand mark & favicon
+│   └── Split-Tone-Metallic-TM-Emblem.png  # Brand mark and vector emblem
 ├── Video/
-│   ├── TMSPARK official ad.mp4            # Official 1080p master showcase film
+│   ├── TMSPARK official ad.mp4            # Official concept video showcase
 │   ├── TM_Spark_Help_Me_Rewrite_1080p (1).mp4
 │   ├── TM_Spark_Live_Context_Detection_1080p.mp4
 │   ├── TM_Spark_Personal_AI_Memory.mp4
@@ -106,53 +123,39 @@ tmspark/
 │   ├── TM_Spark_Personal_AI_Studio_1080p.mp4
 │   ├── TM_Spark_Cross_App_AI_Actions_1080p.mp4
 │   └── TM_Spark_Clone_AI_Agent.mp4
-├── index.html               # Production landing page
-└── README.md                # Project documentation
+├── index.html               # Product landing experience & interactive showcase
+└── README.md                # Product documentation
 ```
 
 ---
 
-## 💻 Running Locally
+## 🔐 Privacy & Responsible Design
 
-To run the project locally on your machine:
+TypeMind Spark's architectural philosophy prioritizes user privacy:
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Shreyash-Verma16/tmspark.git
-   cd tmspark
-   ```
-
-2. **Open with any local HTTP server:**
-   ```bash
-   # Using Python:
-   python -m http.server 3000
-
-   # Or using Node.js npx:
-   npx serve .
-   ```
-
-3. **Visit in your browser:**
-   ```
-   http://localhost:3000
-   ```
+* **Local-First Architecture:** Personal memory caches and stylistic profiles are architected to stay on-device.
+* **User Agency & Consent:** Every suggestion and rewrite requires explicit user acceptance; the user always maintains final editorial control.
+* **Zero Keystroke Harvesting:** Prototype demonstrations do not capture, log, or transmit personal keystrokes to external foundation model training pipelines.
 
 ---
 
-## 🔐 Privacy & Responsible AI
+## 🚦 Project Status & Roadmap
 
-TypeMind Spark adheres to strict privacy-by-design standards:
-* **Local-First Processing:** Writing habits and personal memory indexes are engineered to remain isolated on-device.
-* **Consent & Transparency:** Clear user opt-in for all assistive inference; users retain final review over any generated message.
-* **Zero Persistent External Telemetry:** Prototype sessions do not track personal keystrokes or train public foundation models without explicit consent.
+| Stage | Status | Description |
+|---|---|---|
+| **Interactive Web Showcase** | **Active / Live** | High-fidelity product concept showcase, UI prototypes, and capability demonstrations hosted at [tmspark.vercel.app](https://tmspark.vercel.app). |
+| **Waitlist & Community Feedback** | **Active** | Early-access registration for concept updates and closed testing rounds. |
+| **Keyboard Engine Prototype** | **In Development** | Alpha engineering of the on-device inference layer and input method framework. |
+| **Labs Spark Beta** | **Planned** | Planned platform preview slated for ecosystem integration. |
 
 ---
 
-## 👨‍💻 Author & Engineering
+## 👨‍💻 Creator & Engineering
 
-Designed and developed by **Shreyash Verma**.
+Conceived and developed by **Shreyash Verma**.
 
-* **Portfolio:** [shreyashverma.vercel.app](https://shreyashverma.vercel.app)
-* **Parent Brand:** Labs Spark (Ecosystem preview slated for late 2026)
+* **Website / Portfolio:** [shreyashverma.vercel.app](https://shreyashverma.vercel.app)
+* **Ecosystem:** Labs Spark
 
 ---
 
