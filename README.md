@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Logo/Split-Tone-Metallic-TM-Emblem.png" alt="TypeMind Spark Logo" width="100" />
+  <img src="logo/spark-emblem.png" alt="TypeMind Spark Logo" width="100" />
 </p>
 
 <h1 align="center">TypeMind Spark</h1>
@@ -112,17 +112,17 @@ tmspark/
 │   └── style.css            # Design system, glassmorphism, responsive queries & animations
 ├── js/
 │   └── main.js              # GSAP timelines, Lenis scroll loop, drawer & UI controllers
-├── Logo/
-│   └── Split-Tone-Metallic-TM-Emblem.png  # Brand mark and vector emblem
-├── Video/
-│   ├── TMSPARK official ad.mp4            # Official concept video showcase
-│   ├── TM_Spark_Help_Me_Rewrite_1080p (1).mp4
-│   ├── TM_Spark_Live_Context_Detection_1080p.mp4
-│   ├── TM_Spark_Personal_AI_Memory.mp4
-│   ├── TM_Spark_Thought_Completion_1080p.mp4
-│   ├── TM_Spark_Personal_AI_Studio_1080p.mp4
-│   ├── TM_Spark_Cross_App_AI_Actions_1080p.mp4
-│   └── TM_Spark_Clone_AI_Agent.mp4
+├── logo/
+│   └── spark-emblem.png     # Brand mark and vector emblem
+├── video/
+│   ├── spark-official-showcase.mp4        # Official concept video showcase
+│   ├── spark-help-me-rewrite.mp4
+│   ├── spark-live-context-detection.mp4
+│   ├── spark-personal-ai-memory.mp4
+│   ├── spark-thought-completion.mp4
+│   ├── spark-personal-ai-studio.mp4
+│   ├── spark-cross-app-actions.mp4
+│   └── spark-clone-agent.mp4
 ├── index.html               # Product landing experience & interactive showcase
 └── README.md                # Product documentation
 ```
