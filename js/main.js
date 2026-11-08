@@ -1590,6 +1590,58 @@ window.handleWaitlistSubmit = async function(e) {
       // =========================================================
       // 13. GENERAL SPOTLIGHT CURSOR TRACKING & REVEAL OBSERVER
       // =========================================================
+      
+      // =========================================================
+      // MOBILE HAMBURGER NAVIGATION DRAWER CONTROLLER
+      // =========================================================
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const mobileNavDrawer = document.getElementById('mobile-nav-drawer');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      let isMobileMenuOpen = false;
+
+      function toggleMobileMenu() {
+        if (!mobileNavDrawer || !mobileMenuToggle) return;
+        isMobileMenuOpen = !isMobileMenuOpen;
+
+        if (isMobileMenuOpen) {
+          mobileNavDrawer.classList.remove('opacity-0', '-translate-y-8', 'pointer-events-none');
+          mobileNavDrawer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+          if (hamburgerIcon) {
+            hamburgerIcon.classList.remove('fa-bars');
+            hamburgerIcon.classList.add('fa-xmark');
+          }
+          mobileMenuToggle.setAttribute('aria-expanded', 'true');
+        } else {
+          mobileNavDrawer.classList.add('opacity-0', '-translate-y-8', 'pointer-events-none');
+          mobileNavDrawer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+          if (hamburgerIcon) {
+            hamburgerIcon.classList.add('fa-bars');
+            hamburgerIcon.classList.remove('fa-xmark');
+          }
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+      }
+
+      // Close menu when tapping any navigation link
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (isMobileMenuOpen) toggleMobileMenu();
+        });
+      });
+
+      // Close mobile drawer on resize to desktop view
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024 && isMobileMenuOpen) {
+          toggleMobileMenu();
+        }
+      }, { passive: true });
+
       const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
