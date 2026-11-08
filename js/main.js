@@ -727,6 +727,37 @@
         }
       }
 
+      // =========================================================
+      // 3B. SMART PERFORMANCE OBSERVER FOR CAPABILITY VIDEOS
+      // =========================================================
+      const capabilityVideos = document.querySelectorAll('.capability-row video');
+      if (capabilityVideos.length > 0 && 'IntersectionObserver' in window) {
+        const capVideoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const vid = entry.target;
+            if (entry.isIntersecting) {
+              if (vid.paused) {
+                const playPromise = vid.play();
+                if (playPromise !== undefined) {
+                  playPromise.catch(() => {
+                    // Autoplay restriction or user interaction required; safe no-op
+                  });
+                }
+              }
+            } else {
+              if (!vid.paused) {
+                vid.pause();
+              }
+            }
+          });
+        }, { threshold: 0.12 });
+
+        capabilityVideos.forEach(v => {
+          v.pause();
+          capVideoObserver.observe(v);
+        });
+      }
+
 
       
       // =========================================================
@@ -827,7 +858,11 @@
           ctx.restore();
         }
 
-        function render3DScene() {
+        let isTabActive = !document.hidden;
+        let isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let canvasAnimationFrameId = null;
+
+        function renderFrame() {
           ctx.clearRect(0, 0, width, height);
           time += 0.016;
 
@@ -844,14 +879,54 @@
             const phaseShift = (i / ribbonCount) * Math.PI * 0.8;
             drawContinuousSilkLayer(i, ribbonCount, speed, amp, alpha, phaseShift);
           }
-          requestAnimationFrame(render3DScene);
         }
-        render3DScene();
+
+        function loopScene() {
+          if (!isTabActive || isReducedMotion) {
+            canvasAnimationFrameId = null;
+            return;
+          }
+          renderFrame();
+          canvasAnimationFrameId = requestAnimationFrame(loopScene);
+        }
+
+        // Initialize: render single aesthetic frame if reduced motion, or start continuous loop
+        if (isReducedMotion) {
+          renderFrame();
+        } else {
+          loopScene();
+        }
+
+        // Pause loop when browser tab is hidden/minimized to eliminate background CPU/battery drain
+        document.addEventListener('visibilitychange', () => {
+          isTabActive = !document.hidden;
+          if (isTabActive && !isReducedMotion && !canvasAnimationFrameId) {
+            loopScene();
+          }
+        }, { passive: true });
+
+        // Listen for OS reduced-motion preference changes dynamically
+        const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (motionMediaQuery.addEventListener) {
+          motionMediaQuery.addEventListener('change', (e) => {
+            isReducedMotion = e.matches;
+            if (isReducedMotion) {
+              if (canvasAnimationFrameId) {
+                cancelAnimationFrame(canvasAnimationFrameId);
+                canvasAnimationFrameId = null;
+              }
+              renderFrame();
+            } else if (isTabActive && !canvasAnimationFrameId) {
+              loopScene();
+            }
+          });
+        }
 
         // 15s flowing / 4s gentle recede cycle
         const flowDuration = 15000;
         const recedeDuration = 4000;
         setInterval(() => {
+          if (!isTabActive || isReducedMotion) return;
           if (canvasContainer) {
             canvasContainer.classList.add('water-recede');
             setTimeout(() => {
