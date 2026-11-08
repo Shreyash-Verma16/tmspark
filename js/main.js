@@ -137,6 +137,7 @@
 
         startTimeout = setTimeout(() => {
           if (heroAnimationState !== 'RUNNING') return;
+          if (heroTypedTextEl) heroTypedTextEl.textContent = '';
 
           // Initial typing animation on clean screen
           typeTimer = setInterval(() => {
@@ -938,23 +939,79 @@
 
 
       // =========================================================
-      // 6. TEST FEATURE MODAL MANAGEMENT
+      // 6. MODAL ACCESSIBILITY FOCUS TRAP & TEST MODAL CONTROLLER
       // =========================================================
+      let activeModalTrigger = null;
+
+      function getVisibleFocusable(modalEl) {
+        if (!modalEl) return [];
+        return Array.from(modalEl.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+          .filter(el => !el.closest('.hidden') && el.offsetParent !== null);
+      }
+
+      function trapFocusInModal(modalEl) {
+        if (!modalEl) return;
+
+        setTimeout(() => {
+          const visible = getVisibleFocusable(modalEl);
+          if (visible.length > 0) visible[0].focus();
+        }, 60);
+
+        if (modalEl._focusTrapHandler) {
+          modalEl.removeEventListener('keydown', modalEl._focusTrapHandler);
+        }
+
+        modalEl._focusTrapHandler = function(e) {
+          if (e.key !== 'Tab') return;
+          const focusable = getVisibleFocusable(modalEl);
+          if (focusable.length === 0) return;
+          const firstEl = focusable[0];
+          const lastEl = focusable[focusable.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              e.preventDefault();
+              lastEl.focus();
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault();
+              firstEl.focus();
+            }
+          }
+        };
+        modalEl.addEventListener('keydown', modalEl._focusTrapHandler);
+      }
+
+      function releaseFocusFromModal(modalEl) {
+        if (!modalEl) return;
+        if (modalEl._focusTrapHandler) {
+          modalEl.removeEventListener('keydown', modalEl._focusTrapHandler);
+          modalEl._focusTrapHandler = null;
+        }
+        if (activeModalTrigger && typeof activeModalTrigger.focus === 'function') {
+          activeModalTrigger.focus();
+          activeModalTrigger = null;
+        }
+      }
+
       const testModal = document.getElementById('test-feature-modal');
       const closeTestModalBtn = document.getElementById('close-test-modal');
       const ackTestModalBtn = document.getElementById('ack-test-modal');
 
       function openTestFeatureModal() {
         if (!testModal) return;
+        activeModalTrigger = document.activeElement;
         testModal.classList.add('is-active');
         if (typeof lenis !== 'undefined') lenis.stop();
-        if (ackTestModalBtn) ackTestModalBtn.focus();
+        trapFocusInModal(testModal);
       }
 
       function closeTestFeatureModal() {
         if (!testModal) return;
         testModal.classList.remove('is-active');
         if (typeof lenis !== 'undefined') lenis.start();
+        releaseFocusFromModal(testModal);
       }
 
       if (closeTestModalBtn) closeTestModalBtn.addEventListener('click', closeTestFeatureModal);
@@ -1493,6 +1550,7 @@ const waitlistError = document.getElementById('waitlist-error');
 const WEB3FORMS_ACCESS_KEY = "52fee982-1561-47fe-bb14-2725b4e386ca";
 
 window.triggerWaitlistFlow = function(planName, actionName) {
+  activeModalTrigger = document.activeElement;
   if (window.setWaitlistModalActiveState) window.setWaitlistModalActiveState(true);
   if (!waitlistModal) return;
   if (waitlistPlanTag) waitlistPlanTag.textContent = `${planName} Tier — ${actionName}`;
@@ -1507,8 +1565,7 @@ window.triggerWaitlistFlow = function(planName, actionName) {
 
   waitlistModal.classList.add('is-active');
   if (typeof lenis !== 'undefined') lenis.stop();
-  const input = document.getElementById('waitlist-email');
-  if (input) setTimeout(() => input.focus(), 200);
+  trapFocusInModal(waitlistModal);
 };
 
 function closeWaitlistModal() {
@@ -1516,6 +1573,7 @@ function closeWaitlistModal() {
   if (!waitlistModal) return;
   waitlistModal.classList.remove('is-active');
   if (typeof lenis !== 'undefined') lenis.start();
+  releaseFocusFromModal(waitlistModal);
 }
 
 if (closeWaitlistBtn) closeWaitlistBtn.addEventListener('click', closeWaitlistModal);
@@ -1595,6 +1653,7 @@ window.handleWaitlistSubmit = async function(e) {
 
       window.openLegalModal = function(type) {
         if (!legalModal) return;
+        activeModalTrigger = document.activeElement;
         if (type === 'privacy') {
           if (legalTitle) legalTitle.textContent = 'Privacy Policy';
           if (privacyContent) privacyContent.classList.remove('hidden');
@@ -1610,12 +1669,14 @@ window.handleWaitlistSubmit = async function(e) {
         }
         legalModal.classList.add('is-active');
         if (typeof lenis !== 'undefined') lenis.stop();
+        trapFocusInModal(legalModal);
       };
 
       window.closeLegalModal = function() {
         if (!legalModal) return;
         legalModal.classList.remove('is-active');
         if (typeof lenis !== 'undefined') lenis.start();
+        releaseFocusFromModal(legalModal);
       };
 
       if (legalModal) {
@@ -1632,17 +1693,20 @@ window.handleWaitlistSubmit = async function(e) {
 
       window.openLabsEcosystemModal = function(itemName) {
         if (!labsEcosystemModal) return;
+        activeModalTrigger = document.activeElement;
         if (labsItemBadge && itemName) {
           labsItemBadge.textContent = `${itemName} — In Development`;
         }
         labsEcosystemModal.classList.add('is-active');
         if (typeof lenis !== 'undefined') lenis.stop();
+        trapFocusInModal(labsEcosystemModal);
       };
 
       window.closeLabsEcosystemModal = function() {
         if (!labsEcosystemModal) return;
         labsEcosystemModal.classList.remove('is-active');
         if (typeof lenis !== 'undefined') lenis.start();
+        releaseFocusFromModal(labsEcosystemModal);
       };
 
       if (labsEcosystemModal) {
