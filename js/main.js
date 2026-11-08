@@ -569,7 +569,7 @@
         }
       }
 
-      // High-performance video showcase scroll architecture
+      // High-performance ultra-smooth video showcase scroll architecture
       if (sparkVideoSection && sparkVideoShell && sparkVideoFrame) {
         if (prefersReducedMotion) {
           gsap.set(sparkVideoShell, { opacity: 1, scale: 1, y: 0 });
@@ -578,11 +578,11 @@
           const getMotionConfig = () => {
             const w = window.innerWidth;
             if (w < 768) {
-              return { initialScale: 0.85, initialY: window.innerHeight * 0.35, maxRadius: 20, entranceEnd: 0.55 };
+              return { initialScale: 0.88, initialY: window.innerHeight * 0.22, maxRadius: 16, entranceEnd: 0.65 };
             } else if (w < 1024) {
-              return { initialScale: 0.76, initialY: window.innerHeight * 0.48, maxRadius: 28, entranceEnd: 0.58 };
+              return { initialScale: 0.80, initialY: window.innerHeight * 0.32, maxRadius: 24, entranceEnd: 0.65 };
             } else {
-              return { initialScale: 0.70, initialY: window.innerHeight * 0.58, maxRadius: 36, entranceEnd: 0.58 };
+              return { initialScale: 0.74, initialY: window.innerHeight * 0.36, maxRadius: 32, entranceEnd: 0.65 };
             }
           };
 
@@ -590,35 +590,43 @@
           window.addEventListener('resize', () => {
             cfg = getMotionConfig();
             ScrollTrigger.refresh();
-          });
+          }, { passive: true });
 
           const clamp01 = n => Math.max(0, Math.min(1, n));
-          const smoothstep = n => {
-            n = clamp01(n);
-            return n * n * (3 - 2 * n);
-          };
+          
+          // Smoother Quintic Easing for zero-glitch momentum
+          const easeOutQuint = x => 1 - Math.pow(1 - x, 4);
 
-          // Render direct GPU transforms in lockstep with Lenis smooth scroll
+          let lastScale = cfg.initialScale;
+          let lastY = cfg.initialY;
+          let lastRadius = cfg.maxRadius;
+          let rafPending = false;
+
           const renderShowcase = (progress) => {
             const normP = clamp01(progress);
             const entranceProgress = clamp01(normP / cfg.entranceEnd);
-            const ease = smoothstep(entranceProgress);
+            const ease = easeOutQuint(entranceProgress);
 
-            const currentScale = cfg.initialScale + (1.0 - cfg.initialScale) * ease;
-            const currentY = cfg.initialY * (1.0 - ease);
-            const currentRadius = cfg.maxRadius * (1.0 - ease);
+            const targetScale = cfg.initialScale + (1.0 - cfg.initialScale) * ease;
+            const targetY = cfg.initialY * (1.0 - ease);
+            const targetRadius = cfg.maxRadius * (1.0 - ease);
 
-            // Directly update GPU matrix without CSS variable style recalcs
-            sparkVideoShell.style.transform = `translate3d(0, ${currentY.toFixed(2)}px, 0) scale(${currentScale.toFixed(4)})`;
-            sparkVideoFrame.style.borderRadius = `${currentRadius.toFixed(1)}px`;
+            if (!rafPending) {
+              rafPending = true;
+              requestAnimationFrame(() => {
+                sparkVideoShell.style.transform = `translate3d(0, ${targetY.toFixed(2)}px, 0) scale(${targetScale.toFixed(4)})`;
+                sparkVideoFrame.style.borderRadius = `${targetRadius.toFixed(1)}px`;
+                rafPending = false;
+              });
+            }
           };
 
-          // Direct sync with Lenis frame schedule
+          // Ultra-smooth scrubbing tied with Lenis momentum
           ScrollTrigger.create({
             trigger: sparkVideoSection,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: true,
+            scrub: 0.8, // 0.8s smooth catch-up removes any scroll hitching or glitches
             invalidateOnRefresh: true,
             onUpdate: self => renderShowcase(self.progress),
             onLeaveBack: () => renderShowcase(0),
