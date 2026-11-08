@@ -1,0 +1,5 @@
+# robots.txt for TypeMind Spark
+User-agent: *
+Allow: /
+
+Sitemap: https://tmspark.vercel.app/sitemap.xml
