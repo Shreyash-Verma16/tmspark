@@ -691,7 +691,7 @@
             : '<i class="fa-solid fa-pause" aria-hidden="true"></i>';
         };
         const playFilmIfAllowed = () => {
-          if (!filmVisible || userPausedFilm || prefersReducedMotion || sparkShowcaseVideo.readyState < 2) return;
+          if (!filmVisible || userPausedFilm || prefersReducedMotion) return;
           const playAttempt = sparkShowcaseVideo.play();
           if (playAttempt && typeof playAttempt.catch === 'function') playAttempt.catch(() => {});
         };
@@ -703,20 +703,29 @@
           sparkShowcaseVideo.addEventListener('canplay', () => showcaseBufferIndicator.classList.remove('is-buffering'));
         }
 
-        sparkShowcaseVideo.addEventListener('loadeddata', () => {
+        const revealFilm = () => {
           if (sparkVideoPlaceholder) sparkVideoPlaceholder.classList.add('is-hidden');
           if (sparkVideoPlayToggle) sparkVideoPlayToggle.hidden = false;
-          playFilmIfAllowed();
           updateFilmToggle();
+        };
+
+        sparkShowcaseVideo.addEventListener('loadeddata', () => {
+          revealFilm();
+          playFilmIfAllowed();
         });
+        sparkShowcaseVideo.addEventListener('playing', revealFilm);
+        sparkShowcaseVideo.addEventListener('canplay', revealFilm);
         sparkShowcaseVideo.addEventListener('play', updateFilmToggle);
         sparkShowcaseVideo.addEventListener('pause', updateFilmToggle);
         if ('IntersectionObserver' in window) {
           const filmObserver = new IntersectionObserver(entries => {
             filmVisible = entries[0].isIntersecting;
-            if (filmVisible) playFilmIfAllowed();
-            else sparkShowcaseVideo.pause();
-          }, { threshold: 0.15 });
+            if (filmVisible) {
+              playFilmIfAllowed();
+            } else {
+              sparkShowcaseVideo.pause();
+            }
+          }, { threshold: 0.10, rootMargin: '120px 0px' });
           filmObserver.observe(sparkVideoSection);
         } else {
           filmVisible = true;
