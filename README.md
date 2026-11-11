@@ -159,6 +159,14 @@ Conceived and developed by **Shreyash Verma**.
 
 ---
 
+## 📜 Usage & Rights
+
+© 2026 Shreyash Verma / TypeMind Spark (Labs Spark Ecosystem). All rights reserved.
+
+All source code, design systems, documentation, branding (`logo/`), visual assets (`posters/`), and demonstration media (`video/`) in this repository are proprietary and **not** open-source. This repository is published strictly for showcase and reference purposes; copying, modifying, redistributing, or reusing any code, concepts, or assets in personal, academic, or commercial projects without prior written permission is prohibited.
+
+---
+
 <p align="center">
   <sub>© 2026 TypeMind Spark · Labs Spark Ecosystem. All rights reserved.</sub>
 </p>
