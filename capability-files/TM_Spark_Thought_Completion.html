@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TM Spark — Thought Completion | Cinematic Advertisement</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fff;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{-webkit-font-smoothing:antialiased;user-select:none}
+#film{position:absolute;width:1920px;height:1080px;overflow:hidden;background:#fff;transform-origin:0 0;top:0;left:0}
+#title{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-weight:700;color:#24262a;font-size:64px;line-height:1.1;letter-spacing:-2.9px;opacity:0;white-space:nowrap}
+#phone-stage{position:absolute;left:960px;top:540px;width:0;height:0;pointer-events:none}
+#phone-rig{position:absolute;top:0;left:0;width:431px;height:928px;transform-origin:center center;will-change:transform,opacity;opacity:0}
+.phone-shadow{position:absolute;left:12px;right:12px;top:15px;bottom:4px;border-radius:62px;box-shadow:0 28px 56px rgba(38,44,55,.19),0 7px 22px rgba(33,40,48,.12);filter:blur(3px)}
+.phone{position:absolute;inset:0;border-radius:57px;background:linear-gradient(120deg,#13161b 0%,#777a7d 13%,#171b20 28%,#050606 56%,#45494c 79%,#11161b 100%);border:2px solid #333b44;box-shadow:inset 0 0 0 1px rgba(255,255,255,.34),inset -2px 0 2px rgba(255,255,255,.25),0 1px 3px rgba(22,28,40,.20);padding:10px}
+.phone:before{content:"";position:absolute;left:5px;top:68px;bottom:63px;width:1px;background:linear-gradient(transparent,#8d9295,transparent);opacity:.55}
+.phone:after{content:"";position:absolute;right:5px;top:70px;bottom:63px;width:1px;background:linear-gradient(transparent,#b1b5ba,transparent);opacity:.45}
+.button-edge{position:absolute;background:linear-gradient(to right,#1a1e23,#8d9196,#25272a);border-radius:2px;z-index:0;right:-3px;width:4px;box-shadow:0 1px 1px rgba(0,0,0,.25)}.button-edge.power{top:246px;height:75px}.button-edge.volume{top:151px;height:64px;left:-3px;right:auto;background:linear-gradient(to right,#555e64,#c1c3c2,#2a3036)}
+.screen{position:relative;isolation:isolate;width:100%;height:100%;border-radius:45px;overflow:hidden;background:#eae6df;box-shadow:inset 0 0 0 1px rgba(0,0,0,.9)}
+.status{height:29px;background:#075d51;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 24px 0 31px;font-size:12px;font-weight:650;letter-spacing:.2px}
+.status-icons{display:flex;align-items:center;gap:5px}
+.hdr{height:69px;background:#075d51;display:flex;align-items:center;padding:0 12px 0 11px;gap:9px;color:#fff;box-shadow:0 2px 3px rgba(0,0,0,.13);position:relative;z-index:2}
+.svg{display:block;flex-shrink:0}.back{margin-right:0;opacity:.98}.avatar{height:37px;width:37px;flex:0 0 auto;border-radius:50%;background:linear-gradient(140deg,#bac9c0,#89a6a0);display:grid;place-items:center;color:#fff;font-weight:600;font-size:19px;border:1px solid rgba(255,255,255,.55)}
+.name-col{flex:1;display:flex;flex-direction:column;gap:2px}.contact{font-size:16px;font-weight:650;letter-spacing:-.3px}.online{font-size:11px;opacity:.84;font-weight:450}.header-actions{display:flex;align-items:center;gap:18px;padding:0 3px 0 5px}
+.app-main{position:absolute;inset:98px 0 0;display:flex;flex-direction:column;background:#e9e3d9}
+.wallpaper{position:absolute;inset:0 0 302px;z-index:0;background-color:#ede7df;background-image:radial-gradient(circle at 18% 23%,rgba(130,116,99,.06) 0px,rgba(130,116,99,.06) 1px,transparent 2px),radial-gradient(circle at 75% 79%,rgba(130,116,99,.06) 0px,rgba(130,116,99,.06) 1px,transparent 2px);background-size:43px 47px,59px 58px}
+.chat-space{position:relative;flex:1;min-height:0;display:flex;align-items:flex-end;padding:15px 13px 17px;z-index:1}
+.thread{width:100%;display:flex;flex-direction:column;gap:8px}.day-chip{align-self:center;color:#57666e;background:#eef5f7;border-radius:6px;padding:6px 11px;font-size:10px;font-weight:550;box-shadow:0 1px 2px #b0a89a33;margin-bottom:19px}.bubble{position:relative;max-width:79%;border-radius:9px;padding:8px 9px 15px 9px;font-size:12.7px;line-height:18px;box-shadow:0 1px 1px rgba(33,34,34,.08);letter-spacing:-.05px}.bubble.received{align-self:flex-start;background:#fff;border-top-left-radius:3px}.bubble.sent{align-self:flex-end;background:#d9fdd3;border-top-right-radius:3px}.time-chip{position:absolute;bottom:3px;right:8px;color:#8a979b;font-size:8.5px;line-height:9px}.checks{color:#56a8d5;font-weight:650;padding-left:3px}
+.composer{position:relative;z-index:3;display:flex;align-items:flex-end;gap:8px;background:#f0f2f5;padding:7px 7px 7px 7px;min-height:0;flex:none}.input-shell{flex:1;min-height:67px;background:#fff;border-radius:25px;padding:11px 10px 12px 10px;display:flex;align-items:flex-start;gap:8px;box-shadow:0 1px 1px rgba(0,0,0,.03)}
+.emoji-icon{padding-top:2px;color:#737d86;flex:none}.draft-area{flex:1;min-width:0;padding-top:0;font-size:13.1px;line-height:18.1px;letter-spacing:-.13px;font-weight:450;color:#27343a;overflow:visible}.draft-text{display:inline;word-break:normal;overflow-wrap:break-word;white-space:normal;box-decoration-break:clone;-webkit-box-decoration-break:clone;filter:blur(0px);opacity:1;line-height:18.1px}.draft-text.selected{background:rgba(84,142,232,.29);color:#203f64}.draft-text b{font-weight:450}.input-trail{flex:none;display:flex;align-items:center;gap:10px;padding-top:3px;color:#6d757a}.send-button{width:39px;height:39px;border-radius:50%;background:#00a884;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.11);flex:none;margin-bottom:1px}
+.keyboard{height:276px;position:relative;flex:none;z-index:1;background:#d9dee8;display:flex;flex-direction:column;padding:4px 3px 0 3px;border-top:1px solid #cdd3de}
+.keyboard-toolrow{height:37px;display:flex;align-items:center;justify-content:space-around;color:#6c7380;font-size:13px;font-weight:550;padding:0 18px 1px}.kb-sep{width:1px;min-width:1px!important;height:17px;background:#b6bfc9}.keyboard-toolrow span{min-width:24px;text-align:center}
+.keyrows{display:flex;flex-direction:column;gap:7px;padding:2px 0 0}.keyrow{display:flex;gap:5px;justify-content:center;width:100%;height:46px}.key{background:#fff;border-radius:5px;box-shadow:0 1.3px 0 #aeb6c3;display:flex;justify-content:center;align-items:center;flex:1;min-width:0;font-size:17px;font-weight:480;color:#29313a;line-height:1}.key.special{background:#b3bece;font-size:13px;flex:1.28}.key.symbol{font-size:12px;flex:1.35;background:#b3bece}.key.space{flex:5.0;font-size:12px;color:#576476}.key.return{font-size:15px;flex:1.5;background:#aab7cb}.keyrow.center{padding:0 21px}.keyrow.bottom .key{height:43px}.keyrow.bottom{height:44px}
+.navbar{height:24px;background:#d9dee8;display:grid;place-items:center;flex:none}.nav-pill{height:4px;width:105px;border-radius:8px;background:#50555c;opacity:.7}
+.camera-hole{position:absolute;z-index:6;top:17px;left:50%;width:13px;height:13px;transform:translateX(-50%);background:radial-gradient(circle at 45% 45%,#213041 0 15%,#080a0f 30%,#000 70%);border-radius:50%;box-shadow:0 0 0 2px rgba(255,255,255,.09)}
+.glass{position:absolute;z-index:5;pointer-events:none;inset:0;border-radius:45px;background:linear-gradient(122deg,rgba(255,255,255,.09) 0%,transparent 11%,transparent 85%,rgba(255,255,255,.035) 100%);box-shadow:inset 1px 1px 1px rgba(255,255,255,.22),inset -1px -1px 1px rgba(0,0,0,.1)}
+.floating{position:absolute;bottom:calc(100% + 9px);left:13px;background:#25292c;color:#fff;display:flex;align-items:center;padding:0 5px;height:39px;border-radius:8px;box-shadow:0 4px 13px rgba(0,0,0,.28);opacity:0;transform:translateY(6px) scale(.975);transform-origin:22% 100%;white-space:nowrap;pointer-events:none}.floating:after{content:"";width:9px;height:9px;background:#25292c;position:absolute;bottom:-4px;left:39px;transform:rotate(45deg)}.menu-option{font-size:12px;font-weight:520;letter-spacing:-.12px;line-height:39px;padding:0 12px;position:relative;z-index:1;border-radius:5px}.menu-option:last-child{padding-left:12px;padding-right:10px}.menu-option.active{background:#455458}
+.touch-ripple{position:absolute;z-index:4;border-radius:100%;width:25px;height:25px;left:90px;top:22px;border:1.5px solid rgba(31,106,187,.55);opacity:0;pointer-events:none}
+#timeline-legend{display:none}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+/* Thought Completion — cinematic isolation layer */
+#phone-rig{transform-style:preserve-3d}
+#iso{position:absolute;inset:0;opacity:0;pointer-events:none;z-index:20;will-change:opacity,transform}
+#softglow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 630px 380px at 42% 51%,rgba(141,192,250,.07),transparent 75%);opacity:0}
+#spark{position:absolute;left:325px;top:414px;width:338px;height:254px;border-radius:45px;background:linear-gradient(143deg,rgba(255,255,255,.99),rgba(230,237,246,.96) 45%,rgba(246,249,255,.99) 76%,rgba(220,229,240,.97));border:1px solid rgba(184,194,214,.75);box-shadow:0 35px 75px rgba(34,64,105,.15),0 8px 16px rgba(48,79,119,.09),inset 2px 2px 3px rgba(255,255,255,1),inset -3px -5px 13px rgba(127,149,180,.15);transform:translateX(-54px) scale(.91);opacity:0;display:flex;align-items:center;justify-content:center;isolation:isolate;overflow:hidden}
+#spark::before{content:'';position:absolute;inset:8px;border-radius:38px;border:1.5px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 14px rgba(255,255,255,.84),0 0 20px rgba(255,255,255,.5);z-index:0}
+#spark::after{content:'';position:absolute;left:-60px;top:-140px;width:360px;height:255px;background:linear-gradient(155deg,rgba(255,255,255,.84),rgba(255,255,255,.02));filter:blur(16px);transform:rotate(-19deg);pointer-events:none}
+.spark-word{position:relative;z-index:2;font-size:69px;font-weight:690;letter-spacing:-5px;color:#202d40;text-shadow:0 1px 1px rgba(255,255,255,.6);line-height:1}
+#spark-aura{position:absolute;inset:-100px;background:radial-gradient(circle at 50% 50%,rgba(89,169,255,.31),rgba(165,196,255,.12) 37%,transparent 70%);opacity:0;pointer-events:none;filter:blur(12px)}
+#spark-sheen{position:absolute;top:0;bottom:0;left:-180px;width:180px;transform:skewX(-26deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);z-index:3;pointer-events:none}
+#wire-stage{position:absolute;inset:0;overflow:visible;pointer-events:none;filter:drop-shadow(0 0 7px rgba(73,143,234,.12))}
+.cable{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:3.5;stroke-dasharray:1200;stroke-dashoffset:1200;opacity:.95}
+.cable-sub{fill:none;stroke:rgba(139,176,217,.21);stroke-width:11;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:1200}
+#detached{position:absolute;left:851px;top:464px;width:870px;min-height:143px;background:linear-gradient(145deg,#fff,#fcfdff);border-radius:49px;border:1px solid #e7ecf2;box-shadow:0 25px 70px rgba(40,67,108,.13),0 5px 20px rgba(30,50,88,.06),inset 0 1px 2px #fff;display:flex;gap:18px;align-items:flex-start;padding:26px 24px 23px;opacity:1;will-change:transform}
+#detached .emoji-left{width:32px;height:32px;flex:none;color:#8591a0;margin-top:6px}
+#detached .text-content{font-size:30px;line-height:1.43;color:#23303e;letter-spacing:-.45px;font-weight:450;flex:1;min-width:0;word-break:normal;overflow-wrap:break-word}
+#typed{white-space:pre-wrap}.caret{display:inline-block;height:32px;width:2.5px;background:#1c9a80;vertical-align:-5px;margin-left:2px;opacity:0}
+#auto{color:#293f55;opacity:0;filter:blur(4px)}
+#detached .send-mini{height:49px;width:49px;border-radius:50%;background:#00a884;color:white;flex:none;display:grid;place-items:center;margin-top:0}
+#detached-caption{position:absolute;top:calc(100% + 18px);left:31px;font-size:17px;letter-spacing:.6px;color:#8f9cab;opacity:0}
+#connection-halo{position:absolute;left:816px;top:519px;width:95px;height:95px;border-radius:50%;background:radial-gradient(circle,rgba(90,173,255,.22),transparent 70%);opacity:0;pointer-events:none}
+#ending{position:absolute;left:0;bottom:48px;width:100%;font-size:19px;text-align:center;color:#6d7d91;letter-spacing:.22px;opacity:0}
+.key.pressing{background:#b1c8ea!important;transform:translateY(1px);box-shadow:0 .4px 0 #8da4c3!important}
+
+</style>
+</head>
+<body>
+<div id="film">
+ <div id="title">Thought Completion</div>
+ <div id="phone-stage"><div id="phone-rig"><div class="phone-shadow"></div>
+  <div class="phone"><div class="button-edge power"></div><div class="button-edge volume"></div>
+   <div class="screen"><div class="status"><span>9:41</span><div class="status-icons">
+   <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M1 9h2.5v2H1zm4-3h2.5v5H5zm4-3h2.5v8H9zm4-3h2v11h-2z"/></svg>
+   <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M1 4C4 1 12 1 15 4M4 7c2.5-2 5.5-2 8 0M7 10h2" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+   <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x="1" y="1" width="18" height="10" rx="2" stroke="white" stroke-width="1.2"/><path d="M20 4.2v3.6" stroke="white" stroke-width="2" stroke-linecap="round"/><rect x="3" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+   </div></div>
+   <div class="hdr">
+    <svg class="svg back" width="21" height="25" viewBox="0 0 24 24" fill="none"><path d="M19 12H5m7-7-7 7 7 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="avatar">R</div><div class="name-col"><div class="contact">Rahul</div><div class="online">online</div></div>
+    <div class="header-actions">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="6.7" width="12.5" height="10.6" rx="2.2" stroke="white" stroke-width="1.8"/><path d="m16 10 5-3v10l-5-3" stroke="white" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M7 3h3l1.1 4.7-2 1.5a16 16 0 0 0 5.8 5.8l1.5-2L21 14v3.2c0 2-1.4 3.2-3.4 3.1A17.8 17.8 0 0 1 3.6 6.4C3.5 4.4 4.8 3 7 3Z" stroke="white" stroke-width="1.7" stroke-linejoin="round"/></svg>
+    <svg width="5" height="21" viewBox="0 0 5 21" fill="white"><circle cx="2.5" cy="4" r="1.6"/><circle cx="2.5" cy="10.5" r="1.6"/><circle cx="2.5" cy="17" r="1.6"/></svg>
+    </div>
+   </div>
+   <div class="app-main"><div class="wallpaper"></div><div class="chat-space"><div class="thread"><div class="day-chip">TODAY</div>
+     <div class="bubble received">Hey, did you finish the project?<span class="time-chip">9:37</span></div>
+     <div class="bubble sent">Almost done.<span class="time-chip">9:38 <span class="checks">✓✓</span></span></div>
+     <div class="bubble received">Can you send it today?<span class="time-chip">9:39</span></div>
+    </div></div>
+    <div class="composer" id="composer">
+      
+      <div class="input-shell" id="inputShell">
+        <svg class="emoji-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M8 14.2c1.7 3 6.2 3 8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+        <div class="draft-area"><span class="draft-text" id="draftText"></span></div>
+        <div class="input-trail">
+         <svg width="20" height="22" viewBox="0 0 24 24" fill="none"><path d="m8 13 6-6a3 3 0 0 1 4.2 4.2l-8.1 8.1a5 5 0 0 1-7.1-7.1l9.2-9.2" transform="translate(2,-1)" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="send-button"><svg width="21" height="22" viewBox="0 0 24 24" fill="white"><path d="m3.2 2.8 18 9.2-18 9.2 2.1-8.1 10.4-1.1-10.4-1.1z"/></svg></div>
+      <div class="touch-ripple" id="ripple"></div>
+    </div>
+    <div class="keyboard"><div class="keyboard-toolrow">
+     <span style="font-size:17px;font-weight:700">‹</span><span class="kb-sep"></span>
+     <span>↶</span><span class="kb-sep"></span><span>▤</span><span class="kb-sep"></span>
+     <span style="font-size:17px">⚙</span><span class="kb-sep"></span>
+     <svg width="15" height="18" viewBox="0 0 18 20" fill="none"><rect x="5.5" y="2" width="7" height="11" rx="3.5" stroke="#6c7380" stroke-width="1.6"/><path d="M3 9.5a6 6 0 0 0 12 0M9 15.5V19m-3.5 0h7" stroke="#6c7380" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div><div class="keyrows">
+    <div class="keyrow"><div class="key">q</div><div class="key">w</div><div class="key">e</div><div class="key">r</div><div class="key">t</div><div class="key">y</div><div class="key">u</div><div class="key">i</div><div class="key">o</div><div class="key">p</div></div>
+    <div class="keyrow center"><div class="key">a</div><div class="key">s</div><div class="key">d</div><div class="key">f</div><div class="key">g</div><div class="key">h</div><div class="key">j</div><div class="key">k</div><div class="key">l</div></div>
+    <div class="keyrow"><div class="key special"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 4 3 13h5v6h8v-6h5z" stroke="#344457" stroke-width="1.8" stroke-linejoin="round"/></svg></div><div class="key">z</div><div class="key">x</div><div class="key">c</div><div class="key">v</div><div class="key">b</div><div class="key">n</div><div class="key">m</div><div class="key special"><svg width="21" height="18" viewBox="0 0 24 20" fill="none"><path d="m9 3-7 7 7 7h12V3z" stroke="#344457" stroke-width="1.6" stroke-linejoin="round"/><path d="m13 7 5 6m0-6-5 6" stroke="#344457" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>
+    <div class="keyrow bottom"><div class="key symbol">?123</div><div class="key special" style="font-size:16px">,</div><div class="key" style="flex:1.15;font-size:14px">☺</div><div class="key space">English (US)</div><div class="key special" style="font-size:17px">.</div><div class="key return">↵</div></div>
+    </div></div><div class="navbar"><div class="nav-pill"></div></div>
+   </div>
+   <div class="camera-hole"></div><div class="glass"></div>
+  </div>
+ </div></div></div>
+
+<div id="iso">
+  <div id="softglow"></div>
+  <svg id="wire-stage" viewBox="0 0 1920 1080" width="1920" height="1080" aria-hidden="true">
+    <defs><linearGradient id="wiregrad" x1="0" x2="1"><stop offset="0" stop-color="#95bceb"/><stop offset=".5" stop-color="#4a9bfa"/><stop offset="1" stop-color="#9bcbf9"/></linearGradient></defs>
+    <g id="wire-group">
+      <path class="cable-sub" d="M662 466 C740 466,745 493,824 493 S832 490,857 490"/>
+      <path class="cable" stroke="url(#wiregrad)" d="M662 466 C740 466,745 493,824 493 S832 490,857 490"/>
+      <path class="cable-sub" d="M662 492 C749 492,757 519,829 519 S844 514,857 514"/>
+      <path class="cable" stroke="url(#wiregrad)" d="M662 492 C749 492,757 519,829 519 S844 514,857 514"/>
+      <path class="cable-sub" d="M662 520 C742 520,747 541,832 541 L857 541"/>
+      <path class="cable" stroke="url(#wiregrad)" d="M662 520 C742 520,747 541,832 541 L857 541"/>
+      <path class="cable-sub" d="M662 546 C740 546,745 568,823 568 S841 570,857 570"/>
+      <path class="cable" stroke="url(#wiregrad)" d="M662 546 C740 546,745 568,823 568 S841 570,857 570"/>
+      <path class="cable-sub" d="M662 571 C736 571,758 591,818 591 S846 591,857 591"/>
+      <path class="cable" stroke="url(#wiregrad)" d="M662 571 C736 571,758 591,818 591 S846 591,857 591"/>
+    </g>
+    <g id="wire-packets"><circle class="packet" r="6" fill="#e9f7ff" stroke="#63b3ff" stroke-width="2"/><circle class="packet" r="6" fill="#e9f7ff" stroke="#63b3ff" stroke-width="2"/><circle class="packet" r="6" fill="#e9f7ff" stroke="#63b3ff" stroke-width="2"/></g>
+  </svg>
+  <div id="spark-aura"></div>
+  <div id="spark"><div id="spark-sheen"></div><span class="spark-word">Spark</span></div>
+  <div id="connection-halo"></div>
+  <div id="detached">
+   <svg class="emoji-left" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M8 14.2c1.7 3 6.2 3 8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+   <div class="text-content"><span id="typed">Hi Rahul, I'm sorry, but</span><span class="caret" id="caret"></span><span id="auto"></span></div>
+   <div class="send-mini"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="m3.2 2.8 18 9.2-18 9.2 2.1-8.1 10.4-1.1-10.4-1.1z"/></svg></div>
+   <div id="detached-caption"> </div>
+  </div>
+</div>
+</div>
+<script>
+'use strict';
+const PREFIX="Hi Rahul, I'm sorry, but";
+const COMP=" I won't be able to send the project today due to some unexpected issues. I'll send it tomorrow.";
+const FULL=PREFIX+COMP;
+const film=document.getElementById('film'),title=document.getElementById('title'), rig=document.getElementById('phone-rig'), draft=document.getElementById('draftText');
+const iso=document.getElementById('iso'), spark=document.getElementById('spark'), detached=document.getElementById('detached'), auto=document.getElementById('auto'), typed=document.getElementById('typed');
+const caret=document.getElementById('caret'), glow=document.getElementById('spark-aura'),halo=document.getElementById('connection-halo'), softglow=document.getElementById('softglow'), sheen=document.getElementById('spark-sheen');
+const wires=[...document.querySelectorAll('.cable,.cable-sub')], paths=[...document.querySelectorAll('.cable')], packets=[...document.querySelectorAll('.packet')], keys=[...document.querySelectorAll('.key')];
+const clamp=x=>Math.min(1,Math.max(0,x)),ease=x=>{x=clamp(x);return x*x*(3-2*x)},easeOut=x=>1-Math.pow(1-clamp(x),3),lerp=(a,b,t)=>a+(b-a)*t,ph=(t,a,b)=>ease((t-a)/(b-a));
+let manual=false,started=performance.now();
+const keymap={};keys.forEach(k=>{let s=k.textContent.trim();if(s.length===1)keymap[s.toLowerCase()]=k});
+function render(t){
+ t=Math.max(0,Math.min(21,t));
+ const ti=ph(t,.2,.73),to=1-ph(t,1.46,1.97);
+ title.style.opacity=(ti*to).toFixed(3);title.style.transform=`translateY(calc(-50% + ${(1-ti)*18}px))`;
+ const reveal=ph(t,2.05,3.2),push=ph(t,5.2,8.64),split=ph(t,8.7,10.3),rejoin=ph(t,18.4,19.45);
+ const baseScale=lerp(.96,1.78,push),cameraLift=lerp(0,-325,push);
+ const phoneScale=lerp(baseScale,1.18,rejoin),phoneY=lerp(cameraLift,-100,rejoin)+(1-reveal)*34;
+ let phoneAlpha=reveal*(1-split)*(1-rejoin)+rejoin; if(t<2)phoneAlpha=0;
+ rig.style.opacity=phoneAlpha.toFixed(4);rig.style.transform=`translate(-50%,-50%) translateY(${phoneY.toFixed(2)}px) scale(${phoneScale.toFixed(5)})`;
+ // True incremental typing: the message remains inside the WhatsApp composer.
+ const charCount=Math.max(0,Math.min(PREFIX.length,Math.floor(lerp(0,PREFIX.length,ph(t,4.9,8.0))*1.0001)));
+ const phoneContent=t>=15.82?FULL:PREFIX.slice(0,charCount);
+ if(draft.textContent!==phoneContent)draft.textContent=phoneContent;
+ document.getElementById('inputShell').style.minHeight=`${lerp(67,92,ph(t,15.55,16.1)).toFixed(1)}px`;
+ const nowTyping=(t>=4.9&&t<8.05);
+ caret.style.opacity=(t>=9.25&&t<=14.85 && Math.sin(t*7)>0?.9:0);
+ // Physical keyboard key response, synchronized with the current typed letter.
+ keys.forEach(k=>k.classList.remove('pressing'));
+ if(nowTyping){const c=PREFIX.charAt(Math.max(0,charCount-1)).toLowerCase(),k=keymap[c];if(k&&Math.sin(t*18)>0)k.classList.add('pressing')}
+ // Composer isolation: the phone UI recedes as the original composer expands outward.
+ const isolated=ph(t,8.70,10.10)*(1-ph(t,18.4,19.45));
+ iso.style.opacity=isolated.toFixed(4);
+ const solo=ph(t,8.7,10.32),goingBack=ph(t,17.9,19.45);
+ const x=lerp(-368,0,solo), yy=lerp(-131,0,solo), sc=lerp(.708,1,solo);
+ const xBack=lerp(x,-354,goingBack), yBack=lerp(yy,-20,goingBack), scBack=lerp(sc,.469,goingBack);
+ detached.style.transform=`translate(${xBack.toFixed(2)}px,${yBack.toFixed(2)}px) scale(${scBack.toFixed(4)})`;
+ // Glossy Spark module makes a deliberate sideways entrance, not a hard cut.
+ const show=ph(t,10.36,11.45),unshow=1-ph(t,17.15,18.0),sparkVis=show*unshow;
+ spark.style.opacity=sparkVis.toFixed(4);
+ spark.style.transform=`translateX(${lerp(-76,0,show)+lerp(0,-90,1-unshow)}px) scale(${lerp(.89,1,show).toFixed(4)})`;
+ const conn=ph(t,11.54,13.32)*(1-ph(t,16.93,17.82));
+ wires.forEach((path,i)=>{const lag=(i%2)*.11;const amount=ph(t,11.58+lag,13.1+lag)*(1-ph(t,17.05,17.85));path.style.strokeDashoffset=(1200*(1-amount)).toFixed(2);path.style.opacity=(Math.min(1,amount*3)*unshow*(path.classList.contains('cable-sub')?.75:1)).toFixed(3)});
+ const electric=ph(t,13.0,13.9)*(1-ph(t,16.55,17.6));
+ glow.style.opacity=(.38*conn+Math.max(0,Math.sin(t*13))*.42*electric).toFixed(3);
+ softglow.style.opacity=(.75*conn+.25*electric).toFixed(3);
+ halo.style.opacity=(.46*conn+.35*electric).toFixed(3);
+ spark.style.boxShadow=`0 35px 75px rgba(34,64,105,.15),0 8px 16px rgba(48,79,119,.09),0 0 ${Math.round(42*electric)}px rgba(77,163,255,${(.37*electric).toFixed(3)}),inset 2px 2px 3px rgba(255,255,255,1),inset -3px -5px 13px rgba(127,149,180,.15)`;
+ sheen.style.transform=`translateX(${Math.round(lerp(-180,600,ph(t,13.08,14.45)))}px) skewX(-26deg)`;
+ // Individual glowing packets of intelligence move through the real path geometry.
+ packets.forEach((dot,j)=>{let p=paths[j%paths.length],total=p.getTotalLength(),prog=(t-13.35-j*.18)/1.28;let visible=conn*electric*(prog>0&&prog<1?1:0);let pt=p.getPointAtLength(clamp(prog)*total);dot.setAttribute('cx',pt.x.toFixed(2));dot.setAttribute('cy',pt.y.toFixed(2));dot.style.opacity=visible.toFixed(3)});
+ // Completion resolves as a suggestion, then becomes readable text inside the same editor.
+ const suggest=ph(t,14.12,14.98),resolved=ph(t,14.96,16.55);
+ typed.textContent=PREFIX;
+ auto.textContent=t<14.1?'':COMP;
+ auto.style.opacity=(suggest*(.70+.30*resolved)).toFixed(4);
+ auto.style.filter=`blur(${lerp(7,0,resolved).toFixed(2)}px)`;
+ auto.style.color=resolved>.85?'#23303e':'#718da8';
+ document.getElementById('detached').style.minHeight=`${lerp(143,222,ph(t,14.3,15.8)).toFixed(2)}px`;
+ document.getElementById('detached').style.borderColor=electric>.1?'rgba(126,182,239,.45)':'#e7ecf2';
+ // Going back: exact completed text is already present in the phone composer, no message is sent.
+}
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);film.style.transform=`translate(${Math.round((innerWidth-1920*s)/2)}px,${Math.round((innerHeight-1080*s)/2)}px) scale(${s})`}
+addEventListener('resize',fit);fit();
+window.seekFilm=t=>{manual=true;render(t);return true};window.startFilm=()=>{manual=false;started=performance.now()};
+(function loop(){if(!manual)render(((performance.now()-started)/1000)%21);requestAnimationFrame(loop)})();render(0);
+</script></body></html>
